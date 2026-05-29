@@ -2247,6 +2247,183 @@
     .quiz .q-num { font-size: 0.9rem; }
     .chapter-step { font-size: 1.6rem; }
 
+    /* ===== VOICE NOTES — narration player + recorder ===== */
+    .voice-note {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      max-width: 560px;
+      margin: 18px auto 30px;
+      padding: 10px 18px 10px 10px;
+      background: linear-gradient(180deg, rgba(255,250,238,0.95), rgba(245,232,200,0.85));
+      border: 1.5px solid rgba(212,168,87,0.55);
+      border-radius: 999px;
+      box-shadow: 0 4px 16px rgba(58,37,16,0.1);
+      transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s;
+      position: relative;
+    }
+    .voice-note:hover {
+      box-shadow: 0 8px 24px rgba(58,37,16,0.18);
+      transform: translateY(-1px);
+      border-color: var(--gold);
+    }
+    .vn-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 50px; height: 50px;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+      color: #2a1408;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(212,168,87,0.45);
+      transition: transform 0.2s, box-shadow 0.2s;
+      padding: 0;
+    }
+    .vn-btn:hover { transform: scale(1.07); box-shadow: 0 6px 18px rgba(212,168,87,0.6); }
+    .vn-btn:active { transform: scale(0.96); }
+    .vn-btn svg { width: 22px; height: 22px; fill: currentColor; }
+    .voice-note .vn-pause { display: none; }
+    .voice-note.vn-playing .vn-play { display: none; }
+    .voice-note.vn-playing .vn-pause { display: inline-block; }
+    .voice-note.vn-playing .vn-btn {
+      box-shadow: 0 0 0 6px rgba(212,168,87,0.18), 0 4px 14px rgba(212,168,87,0.55);
+    }
+
+    .vn-info { flex: 1; min-width: 0; }
+    .vn-label {
+      display: flex; align-items: center; gap: 6px;
+      font-family: 'Cinzel', serif; font-weight: 700;
+      color: var(--gold-dark);
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+    body[data-lang="ar"] .vn-label {
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+    .vn-label .vn-icon { font-size: 1rem; }
+
+    .vn-progress {
+      height: 5px;
+      background: rgba(107,77,34,0.18);
+      border-radius: 999px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .vn-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+      width: 0%;
+      transition: width 0.1s linear;
+      border-radius: 999px;
+    }
+    .vn-time {
+      display: flex; justify-content: space-between;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      color: var(--parchment);
+      margin-top: 4px;
+      opacity: 0.7;
+      letter-spacing: 0.04em;
+    }
+    body[data-lang="ar"] .vn-time { font-family: 'Cairo', sans-serif; }
+
+    /* Empty state — no recording on disk yet */
+    .voice-note.vn-empty .vn-btn {
+      background: rgba(107,77,34,0.18);
+      box-shadow: none;
+      color: #7a6840;
+      cursor: not-allowed;
+    }
+    .voice-note.vn-empty .vn-btn:hover { transform: none; box-shadow: none; }
+    .voice-note.vn-empty .vn-label {
+      color: rgba(58,37,16,0.55);
+    }
+    .voice-note.vn-empty .vn-progress-fill { background: rgba(107,77,34,0.25); }
+
+    /* ===== Edit-mode recorder (visible only when ?edit=1) ===== */
+    .vn-recorder {
+      display: none;
+      flex-basis: 100%;
+      margin-top: 10px;
+      padding: 12px;
+      border-top: 1px dashed rgba(107,77,34,0.3);
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    body.is-edit-mode .voice-note { flex-wrap: wrap; border-radius: 24px; }
+    body.is-edit-mode .vn-recorder { display: flex; }
+    .vn-rec-btn, .vn-rec-stop, .vn-rec-download {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1.5px solid var(--gold);
+      background: rgba(255,255,255,0.7);
+      color: var(--gold-dark);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+    body[data-lang="ar"] .vn-rec-btn,
+    body[data-lang="ar"] .vn-rec-stop,
+    body[data-lang="ar"] .vn-rec-download {
+      font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 0.9rem;
+    }
+    .vn-rec-btn:hover, .vn-rec-stop:hover, .vn-rec-download:hover {
+      background: var(--gold-bright);
+      color: #2a1408;
+      transform: translateY(-1px);
+    }
+    .vn-rec-stop { background: #c84e2a; color: #fff8e7; border-color: #8b3a20; }
+    .vn-rec-stop:hover { background: #e05a32; color: #fff; }
+    .vn-rec-timer {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      color: #c84e2a;
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+      padding: 4px 12px;
+      background: rgba(200,78,42,0.12);
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .vn-rec-timer::before {
+      content: ""; width: 8px; height: 8px;
+      background: #c84e2a; border-radius: 50%;
+      animation: vnRecPulse 0.9s ease-in-out infinite;
+    }
+    @keyframes vnRecPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+    .vn-rec-preview {
+      flex-basis: 100%;
+      width: 100%;
+      margin-top: 6px;
+    }
+    .vn-rec-help {
+      flex-basis: 100%;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--parchment);
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+    body[data-lang="ar"] .vn-rec-help {
+      font-family: 'Cairo', sans-serif; font-style: normal; font-size: 0.95rem;
+    }
+
     /* ===== ACCESSIBILITY ===== */
     /* Visible keyboard focus everywhere */
     a:focus-visible,
@@ -2373,6 +2550,21 @@
       </div>
       <div class="title-line" data-i18n="hero.title">أبو الجِراحَة الحديثة</div>
       <div class="lifespan" data-i18n="hero.lifespan">936 — 1013م · قُرْطُبَة، الأندلس</div>
+
+      <div class="voice-note" data-clip="hero">
+        <button class="vn-btn" type="button" aria-label="Play narration">
+          <svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          <svg class="vn-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+        </button>
+        <div class="vn-info">
+          <div class="vn-label">
+            <span class="vn-icon">🎤</span>
+            <span class="vn-text" data-i18n="voice.listen">استمع إلى مقدمتي</span>
+          </div>
+          <div class="vn-progress"><div class="vn-progress-fill"></div></div>
+          <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
+        </div>
+      </div>
     </div>
 
     <div class="scroll-cue">
@@ -2387,6 +2579,15 @@
     <div class="ornament"><span class="line"></span>
       <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 14,9 21,9 15.5,13.5 17.5,21 12,16.5 6.5,21 8.5,13.5 3,9 10,9"/></svg>
       <span class="line"></span></div>
+
+    <div class="voice-note" data-clip="intro">
+      <button class="vn-btn" type="button" aria-label="Play narration"><svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vn-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg></button>
+      <div class="vn-info">
+        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى ناصر يحكي هذا الجزء</span></div>
+        <div class="vn-progress"><div class="vn-progress-fill"></div></div>
+        <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
+      </div>
+    </div>
 
     <div class="painting-wrap reveal">
       <figure class="painting-frame">
@@ -2436,6 +2637,15 @@
     <div class="ornament"><span class="line"></span>
       <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 14,9 21,9 15.5,13.5 17.5,21 12,16.5 6.5,21 8.5,13.5 3,9 10,9"/></svg>
       <span class="line"></span></div>
+
+    <div class="voice-note" data-clip="journey">
+      <button class="vn-btn" type="button" aria-label="Play narration"><svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vn-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg></button>
+      <div class="vn-info">
+        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى ناصر يحكي هذا الجزء</span></div>
+        <div class="vn-progress"><div class="vn-progress-fill"></div></div>
+        <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
+      </div>
+    </div>
 
     <div class="journey-prompt-wrap">
       <span class="journey-prompt" data-i18n="journey.prompt">هل أنت مستعد للرحلة؟ ✨</span>
@@ -3049,6 +3259,15 @@
       <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 14,9 21,9 15.5,13.5 17.5,21 12,16.5 6.5,21 8.5,13.5 3,9 10,9"/></svg>
       <span class="line"></span></div>
 
+    <div class="voice-note" data-clip="tasrif">
+      <button class="vn-btn" type="button" aria-label="Play narration"><svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vn-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg></button>
+      <div class="vn-info">
+        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى ناصر يحكي هذا الجزء</span></div>
+        <div class="vn-progress"><div class="vn-progress-fill"></div></div>
+        <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
+      </div>
+    </div>
+
     <p class="lede reveal" data-i18n="tasrif.lede">
       عَمِل الزَّهْراوي على كتابه قُرابة <em>خمسين عاماً</em>. وحين انتهى منه كان يحوي <strong>ثلاثين مجلداً</strong> — تغطي كل أبواب الطب. آخر مجلد، <strong>المجلد 30</strong>، هو الذي جعل اسمه خالداً.
     </p>
@@ -3082,6 +3301,15 @@
     <div class="ornament"><span class="line"></span>
       <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 14,9 21,9 15.5,13.5 17.5,21 12,16.5 6.5,21 8.5,13.5 3,9 10,9"/></svg>
       <span class="line"></span></div>
+
+    <div class="voice-note" data-clip="instruments">
+      <button class="vn-btn" type="button" aria-label="Play narration"><svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vn-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg></button>
+      <div class="vn-info">
+        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى ناصر يحكي هذا الجزء</span></div>
+        <div class="vn-progress"><div class="vn-progress-fill"></div></div>
+        <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
+      </div>
+    </div>
 
     <p class="lede reveal" data-i18n="inst.lede">
       رسم الزَّهْراوي ووصف <em>أكثر من مئتين</em> من الأدوات الجراحية في كتابه — كثيرٌ منها من اختراعه. بعض هذه التصاميم لا تزال تُستخدم في مستشفيات اليوم.
@@ -3208,6 +3436,15 @@
     <div class="ornament"><span class="line"></span>
       <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 14,9 21,9 15.5,13.5 17.5,21 12,16.5 6.5,21 8.5,13.5 3,9 10,9"/></svg>
       <span class="line"></span></div>
+
+    <div class="voice-note" data-clip="map">
+      <button class="vn-btn" type="button" aria-label="Play narration"><svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vn-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg></button>
+      <div class="vn-info">
+        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى ناصر يحكي هذا الجزء</span></div>
+        <div class="vn-progress"><div class="vn-progress-fill"></div></div>
+        <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
+      </div>
+    </div>
 
     <p class="lede reveal" data-i18n="map.lede">
       عاش الزَّهْراوي كل حياته في الأندلس — إسبانيا المسلمة. لكنّ أفكاره لم تبق هناك. بعد وفاته، تُرجم كتابه وانتقل إلى أعظم جامعات أوروبا.
@@ -3432,6 +3669,15 @@
       <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 14,9 21,9 15.5,13.5 17.5,21 12,16.5 6.5,21 8.5,13.5 3,9 10,9"/></svg>
       <span class="line"></span></div>
 
+    <div class="voice-note" data-clip="values">
+      <button class="vn-btn" type="button" aria-label="Play narration"><svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vn-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg></button>
+      <div class="vn-info">
+        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى ناصر يحكي هذا الجزء</span></div>
+        <div class="vn-progress"><div class="vn-progress-fill"></div></div>
+        <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
+      </div>
+    </div>
+
     <div class="ayah-card reveal">
       <div class="ayah-intro" data-i18n="ayah.intro">قَالَ اللَّهُ تَعَالَى:</div>
       <div class="ayah-bismillah">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>
@@ -3535,6 +3781,15 @@
     <div class="ornament"><span class="line"></span>
       <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 14,9 21,9 15.5,13.5 17.5,21 12,16.5 6.5,21 8.5,13.5 3,9 10,9"/></svg>
       <span class="line"></span></div>
+
+    <div class="voice-note" data-clip="legacy">
+      <button class="vn-btn" type="button" aria-label="Play narration"><svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vn-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg></button>
+      <div class="vn-info">
+        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى ناصر يحكي هذا الجزء</span></div>
+        <div class="vn-progress"><div class="vn-progress-fill"></div></div>
+        <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
+      </div>
+    </div>
 
     <div class="quote-wrap reveal">
       <p class="quote" data-i18n="legacy.quote">
@@ -3760,6 +4015,13 @@
         "quiz.msglow": "محاولة أولى جيدة — ارجع للأعلى واقرأ مرة أخرى!",
         // Footer
         "footer.tag": "مشروع التربية الإسلامية للسنة الرابعة — صَنَعتُه بحُبّ.",
+        // Voice narration
+        "voice.listen":  "🎤 استمع إلى ناصر يحكي هذا الجزء",
+        "voice.empty":   "(لم يتم تسجيل صوت لهذا الجزء بعد)",
+        "voice.recBtn":  "سجّل",
+        "voice.reRecBtn":"أعد التسجيل",
+        "voice.stopBtn": "أوقف",
+        "voice.helpText":"اضغط «سجّل» وتكلّم. لمّا تنتهي اضغط «↓» لحفظ الملف باسم voice-{clip}.webm ثم ضعه في مجلد audio/ في مشروعك.",
         "footer.honor": "إكراماً لإرث <strong>أبي القاسم الزَّهْراوي</strong> · 936 — 1013م · قُرْطُبَة",
         "footer.srclabel": "المصادر:"
       },
@@ -3925,6 +4187,13 @@
         "quiz.msg60": "Great effort — give it another try to top your score!",
         "quiz.msglow": "Good first go — scroll back up and try again to learn more!",
         "footer.tag": "A Year 4 Islamic Studies project, made with care.",
+        // Voice narration
+        "voice.listen":  "🎤 Listen to Naser narrate this part",
+        "voice.empty":   "(No narration recorded for this part yet)",
+        "voice.recBtn":  "Record",
+        "voice.reRecBtn":"Re-record",
+        "voice.stopBtn": "Stop",
+        "voice.helpText":"Press Record and speak. When you're done press ↓ to save as voice-{clip}.webm, then drop it into the audio/ folder of your project.",
         "footer.honor": "Honouring the legacy of <strong>Abu al-Qasim al-Zahrawi</strong> · 936 — 1013 CE · Cordoba",
         "footer.srclabel": "Sources include:"
       }
@@ -4838,6 +5107,180 @@
         '</div>';
       document.getElementById('retryBtn').addEventListener('click', () => { qIndex = 0; score = 0; renderQuestion(); });
     }
+
+    // ===============================
+    // 11a. VOICE NARRATION — playback + edit-mode recording
+    // ===============================
+    // Audio files are loaded from /audio/voice-<clip>.<ext>. If the file
+    // doesn't exist (404), the player shows an "empty" state.
+    function setupVoiceNotes() {
+      // Try multiple extensions so it works whether the recording was
+      // made on Chrome (webm) or Safari (mp4).
+      const exts = ['webm', 'mp4', 'mp3', 'ogg'];
+      document.querySelectorAll('.voice-note').forEach(el => {
+        const clip = el.dataset.clip;
+        if (!clip) return;
+        const audio = new Audio();
+        audio.preload = 'metadata';
+        el._audio = audio;
+
+        let extIdx = 0;
+        function tryNextExt() {
+          if (extIdx >= exts.length) {
+            // No file found → empty state
+            el.classList.add('vn-empty');
+            const txt = el.querySelector('.vn-text');
+            if (txt) txt.textContent = tr('voice.empty');
+            return;
+          }
+          audio.src = 'audio/voice-' + clip + '.' + exts[extIdx++];
+        }
+        audio.addEventListener('error', tryNextExt);
+        tryNextExt();
+
+        audio.addEventListener('loadedmetadata', () => {
+          const dur = el.querySelector('.vn-duration');
+          if (dur) dur.textContent = fmtVnTime(audio.duration);
+          el.classList.remove('vn-empty');
+        });
+        audio.addEventListener('timeupdate', () => {
+          const fill = el.querySelector('.vn-progress-fill');
+          const cur = el.querySelector('.vn-current');
+          if (fill && audio.duration) fill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+          if (cur) cur.textContent = fmtVnTime(audio.currentTime);
+        });
+        audio.addEventListener('ended', () => {
+          el.classList.remove('vn-playing');
+        });
+
+        // Play / pause button
+        const btn = el.querySelector('.vn-btn');
+        if (btn) btn.addEventListener('click', () => {
+          if (el.classList.contains('vn-empty')) return;
+          if (audio.paused) {
+            // Pause any other voice notes that are currently playing
+            document.querySelectorAll('.voice-note.vn-playing').forEach(other => {
+              if (other !== el) {
+                other.classList.remove('vn-playing');
+                if (other._audio) other._audio.pause();
+              }
+            });
+            audio.play().catch(() => {});
+            el.classList.add('vn-playing');
+          } else {
+            audio.pause();
+            el.classList.remove('vn-playing');
+          }
+        });
+
+        // Click on progress bar to seek
+        const prog = el.querySelector('.vn-progress');
+        if (prog) prog.addEventListener('click', e => {
+          if (el.classList.contains('vn-empty') || !audio.duration) return;
+          const r = prog.getBoundingClientRect();
+          const pct = (e.clientX - r.left) / r.width;
+          audio.currentTime = Math.max(0, Math.min(1, pct)) * audio.duration;
+        });
+      });
+    }
+
+    function fmtVnTime(seconds) {
+      if (!isFinite(seconds) || seconds < 0) return '0:00';
+      const m = Math.floor(seconds / 60);
+      const s = Math.floor(seconds % 60);
+      return m + ':' + (s < 10 ? '0' + s : s);
+    }
+
+    // ===== Edit mode (URL has ?edit=1 or ?edit) =====
+    if (/[?&]edit(=1)?(&|$)/.test(location.search)) {
+      document.body.classList.add('is-edit-mode');
+      setupVoiceRecorders();
+    }
+
+    function setupVoiceRecorders() {
+      document.querySelectorAll('.voice-note').forEach(el => {
+        const clip = el.dataset.clip;
+        if (!clip) return;
+        // Build recorder UI on demand
+        const rec = document.createElement('div');
+        rec.className = 'vn-recorder';
+        rec.innerHTML =
+          '<button type="button" class="vn-rec-btn">🎤 ' + tr('voice.recBtn') + '</button>' +
+          '<span class="vn-rec-timer" hidden>0:00</span>' +
+          '<button type="button" class="vn-rec-stop" hidden>⏹ ' + tr('voice.stopBtn') + '</button>' +
+          '<button type="button" class="vn-rec-download" hidden>↓ voice-' + clip + '</button>' +
+          '<audio class="vn-rec-preview" controls hidden></audio>' +
+          '<div class="vn-rec-help">' + tr('voice.helpText').replace('{clip}', clip) + '</div>';
+        el.appendChild(rec);
+
+        const recBtn = rec.querySelector('.vn-rec-btn');
+        const stopBtn = rec.querySelector('.vn-rec-stop');
+        const timer = rec.querySelector('.vn-rec-timer');
+        const preview = rec.querySelector('.vn-rec-preview');
+        const dlBtn = rec.querySelector('.vn-rec-download');
+
+        let mr = null;
+        let chunks = [];
+        let lastBlob = null;
+        let timerId = null;
+        let startTime = 0;
+        let mime = '';
+
+        recBtn.addEventListener('click', async () => {
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mr = new MediaRecorder(stream);
+            chunks = [];
+            mr.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+            mr.onstop = () => {
+              mime = mr.mimeType || 'audio/webm';
+              lastBlob = new Blob(chunks, { type: mime });
+              preview.src = URL.createObjectURL(lastBlob);
+              preview.hidden = false;
+              dlBtn.hidden = false;
+              stream.getTracks().forEach(t => t.stop());
+            };
+            mr.start();
+            startTime = Date.now();
+            timer.hidden = false;
+            stopBtn.hidden = false;
+            recBtn.hidden = true;
+            preview.hidden = true;
+            dlBtn.hidden = true;
+            timerId = setInterval(() => {
+              timer.textContent = fmtVnTime((Date.now() - startTime) / 1000);
+            }, 100);
+          } catch (err) {
+            alert('Microphone access denied or not supported: ' + err.message);
+          }
+        });
+
+        stopBtn.addEventListener('click', () => {
+          if (mr && mr.state === 'recording') mr.stop();
+          clearInterval(timerId);
+          stopBtn.hidden = true;
+          timer.hidden = true;
+          recBtn.hidden = false;
+          recBtn.textContent = '🎤 ' + tr('voice.reRecBtn');
+        });
+
+        dlBtn.addEventListener('click', () => {
+          if (!lastBlob) return;
+          let ext = 'webm';
+          if (mime.includes('mp4')) ext = 'mp4';
+          else if (mime.includes('ogg')) ext = 'ogg';
+          else if (mime.includes('mp3') || mime.includes('mpeg')) ext = 'mp3';
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(lastBlob);
+          a.download = 'voice-' + clip + '.' + ext;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        });
+      });
+    }
+
+    setupVoiceNotes();
 
     // ===============================
     // 11. LANGUAGE TOGGLE BUTTONS
