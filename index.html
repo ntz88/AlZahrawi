@@ -2424,6 +2424,163 @@
       font-family: 'Cairo', sans-serif; font-style: normal; font-size: 0.95rem;
     }
 
+    /* ===== GITHUB SETUP PANEL (edit mode only) ===== */
+    .github-setup {
+      display: none;
+      max-width: 720px;
+      margin: 20px auto 30px;
+      padding: 18px 22px 16px;
+      background: linear-gradient(180deg, rgba(255,250,238,0.97), rgba(250,238,210,0.92));
+      border: 2px dashed rgba(212,168,87,0.6);
+      border-radius: 14px;
+      position: relative;
+      box-shadow: 0 6px 20px rgba(58,37,16,0.08);
+    }
+    body.is-edit-mode .github-setup { display: block; }
+    .gh-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      color: var(--gold-dark);
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    body[data-lang="ar"] .gh-title { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 1.05rem; }
+    .gh-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--parchment);
+      font-size: 0.9rem;
+      margin-bottom: 14px;
+      opacity: 0.85;
+    }
+    body[data-lang="ar"] .gh-subtitle { font-family: 'Cairo', sans-serif; font-style: normal; font-size: 0.95rem; }
+    .gh-row {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 8px 12px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    body[data-lang="ar"] .gh-row { grid-template-columns: 130px 1fr; }
+    .gh-row label {
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      color: var(--parchment);
+      font-size: 0.82rem;
+    }
+    body[data-lang="ar"] .gh-row label { font-family: 'Cairo', sans-serif; font-size: 0.95rem; }
+    .gh-row input {
+      padding: 7px 10px;
+      border: 1px solid rgba(107,77,34,0.35);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.85);
+      color: var(--cream);
+      font-family: 'Lato', monospace;
+      font-size: 0.9rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    body[data-lang="ar"] .gh-row input { font-family: 'Cairo', sans-serif; }
+    .gh-row input:focus {
+      outline: 2px solid var(--gold);
+      outline-offset: 1px;
+      border-color: var(--gold);
+    }
+    .gh-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .gh-btn {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      padding: 7px 16px;
+      border-radius: 999px;
+      border: 1.5px solid var(--gold);
+      background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+      color: #2a1408;
+      cursor: pointer;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    body[data-lang="ar"] .gh-btn { font-family: 'Cairo', sans-serif; letter-spacing: 0; font-size: 0.9rem; }
+    .gh-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(212,168,87,0.4); }
+    .gh-btn-clear {
+      background: rgba(255,255,255,0.7);
+      color: var(--gold-dark);
+    }
+    .gh-status {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--parchment);
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    body[data-lang="ar"] .gh-status { font-family: 'Cairo', sans-serif; font-style: normal; font-size: 0.95rem; }
+    .gh-status.ok  { color: #2a7a3a; font-weight: 700; }
+    .gh-status.err { color: #c84e2a; font-weight: 700; }
+    .gh-help {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--parchment);
+      opacity: 0.85;
+      font-size: 0.85rem;
+      margin-top: 12px;
+      line-height: 1.55;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(107,77,34,0.25);
+    }
+    body[data-lang="ar"] .gh-help { font-family: 'Cairo', sans-serif; font-style: normal; font-size: 0.92rem; }
+    .gh-help a { color: var(--gold-dark); text-decoration: underline; font-weight: 600; }
+
+    /* Save-to-GitHub button inside each recorder */
+    .vn-rec-upload {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1.5px solid #3a6a2a;
+      background: linear-gradient(180deg, #5a9a4a, #2a6a2a);
+      color: #fff8e7;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+    }
+    body[data-lang="ar"] .vn-rec-upload {
+      font-family: 'Cairo', sans-serif;
+      letter-spacing: 0;
+      font-size: 0.9rem;
+    }
+    .vn-rec-upload:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(58,106,42,0.35);
+    }
+    .vn-rec-upload:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .vn-rec-upload.uploading {
+      background: linear-gradient(180deg, #d4a857, #8b6420);
+      border-color: #6b4d18;
+    }
+    .vn-rec-upload.success {
+      background: linear-gradient(180deg, #4a9a3a, #2a7a2a);
+    }
+    .vn-rec-upload.error {
+      background: linear-gradient(180deg, #d05a2a, #a04020);
+      border-color: #8b3a20;
+    }
+
     /* ===== ACCESSIBILITY ===== */
     /* Visible keyboard focus everywhere */
     a:focus-visible,
@@ -2503,6 +2660,34 @@
   <!-- BISMILLAH -->
   <div class="bismillah-bar">
     <span class="bismillah-text">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</span>
+  </div>
+
+  <!-- GitHub setup panel (visible only when ?edit=1) -->
+  <div class="github-setup" id="ghSetup">
+    <div class="gh-title">⚙️ <span data-i18n="gh.title">GitHub upload setup</span></div>
+    <div class="gh-subtitle" data-i18n="gh.subtitle">Set this once and your voice notes upload to GitHub directly — no download/upload chore.</div>
+    <div class="gh-row">
+      <label for="ghOwner" data-i18n="gh.owner">Username</label>
+      <input id="ghOwner" type="text" placeholder="e.g. naser123" autocomplete="off"/>
+    </div>
+    <div class="gh-row">
+      <label for="ghRepo" data-i18n="gh.repo">Repository</label>
+      <input id="ghRepo" type="text" placeholder="e.g. al-zahrawi-project" autocomplete="off"/>
+    </div>
+    <div class="gh-row">
+      <label for="ghToken" data-i18n="gh.token">PAT (token)</label>
+      <input id="ghToken" type="password" placeholder="github_pat_..." autocomplete="off" spellcheck="false"/>
+    </div>
+    <div class="gh-row">
+      <label for="ghBranch" data-i18n="gh.branch">Branch</label>
+      <input id="ghBranch" type="text" placeholder="main" value="main" autocomplete="off"/>
+    </div>
+    <div class="gh-buttons">
+      <button type="button" class="gh-btn" id="ghSaveBtn" data-i18n="gh.testBtn">Save &amp; Test</button>
+      <button type="button" class="gh-btn gh-btn-clear" id="ghClearBtn" data-i18n="gh.clearBtn">Clear</button>
+      <span class="gh-status" id="ghStatus"></span>
+    </div>
+    <div class="gh-help" data-i18n="gh.help">Need a token? Go to GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate. Scope it to just this one repo, with "Contents: Read and write" permission. Paste it above.</div>
   </div>
 
   <!-- NAV -->
@@ -4021,7 +4206,28 @@
         "voice.recBtn":  "سجّل",
         "voice.reRecBtn":"أعد التسجيل",
         "voice.stopBtn": "أوقف",
-        "voice.helpText":"اضغط «سجّل» وتكلّم. لمّا تنتهي اضغط «↓» لحفظ الملف باسم voice-{clip}.webm ثم ضعه في مجلد audio/ في مشروعك.",
+        "voice.helpText":"اضغط «سجّل» وتكلّم. لمّا تنتهي اضغط «🚀» للحفظ مباشرة على GitHub، أو «↓» لتنزيل الملف بصيغة voice-{clip}.webm.",
+        "voice.uploadBtn": "احفظ على GitHub",
+        "voice.uploadAgain": "احفظ مرة أخرى",
+        "voice.uploading": "جاري الرفع...",
+        "voice.uploadOK": "تم الحفظ على GitHub",
+        "voice.uploadErr": "فشل الرفع",
+        "voice.uploadNeedsConfig": "اضبط GitHub في الأعلى أولاً",
+        // GitHub setup panel
+        "gh.title": "إعداد رفع GitHub",
+        "gh.subtitle": "اضبط هذا مرة واحدة وستُرفَع تسجيلاتك مباشرة على GitHub — لا تنزيل ولا رفع يدوي.",
+        "gh.owner": "اسم المستخدم",
+        "gh.repo": "اسم المستودع",
+        "gh.token": "PAT (الرمز)",
+        "gh.branch": "الفرع",
+        "gh.testBtn": "احفظ واختبر",
+        "gh.clearBtn": "امسح",
+        "gh.statusSaved": "محفوظ",
+        "gh.statusMissing": "املأ كل الحقول",
+        "gh.statusTesting": "جاري الاختبار...",
+        "gh.statusConnected": "متصل بنجاح",
+        "gh.statusCleared": "تم المسح",
+        "gh.help": "تحتاج رمزاً (PAT)؟ اذهب إلى GitHub ← Settings ← Developer settings ← Personal access tokens ← Fine-grained tokens ← Generate. حدّد هذا المستودع فقط، وفعّل صلاحية \"Contents: Read and write\". ثم انسخه هنا.",
         "footer.honor": "إكراماً لإرث <strong>أبي القاسم الزَّهْراوي</strong> · 936 — 1013م · قُرْطُبَة",
         "footer.srclabel": "المصادر:"
       },
@@ -4193,7 +4399,28 @@
         "voice.recBtn":  "Record",
         "voice.reRecBtn":"Re-record",
         "voice.stopBtn": "Stop",
-        "voice.helpText":"Press Record and speak. When you're done press ↓ to save as voice-{clip}.webm, then drop it into the audio/ folder of your project.",
+        "voice.helpText":"Press Record and speak. When done, press 🚀 to upload straight to GitHub, or ↓ to download voice-{clip}.webm.",
+        "voice.uploadBtn": "Save to GitHub",
+        "voice.uploadAgain": "Save again",
+        "voice.uploading": "Uploading...",
+        "voice.uploadOK": "Saved to GitHub",
+        "voice.uploadErr": "Upload failed",
+        "voice.uploadNeedsConfig": "Set up GitHub above first",
+        // GitHub setup panel
+        "gh.title": "GitHub upload setup",
+        "gh.subtitle": "Set this once and voice notes upload to GitHub directly — no download/upload chore.",
+        "gh.owner": "Username",
+        "gh.repo": "Repository",
+        "gh.token": "PAT (token)",
+        "gh.branch": "Branch",
+        "gh.testBtn": "Save &amp; Test",
+        "gh.clearBtn": "Clear",
+        "gh.statusSaved": "Saved",
+        "gh.statusMissing": "Fill in all fields",
+        "gh.statusTesting": "Testing...",
+        "gh.statusConnected": "Connected",
+        "gh.statusCleared": "Cleared",
+        "gh.help": "Need a token? Go to GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate. Scope it to just this one repo, with \"Contents: Read and write\" permission. Paste it above.",
         "footer.honor": "Honouring the legacy of <strong>Abu al-Qasim al-Zahrawi</strong> · 936 — 1013 CE · Cordoba",
         "footer.srclabel": "Sources include:"
       }
@@ -5208,6 +5435,7 @@
           '<button type="button" class="vn-rec-btn">🎤 ' + tr('voice.recBtn') + '</button>' +
           '<span class="vn-rec-timer" hidden>0:00</span>' +
           '<button type="button" class="vn-rec-stop" hidden>⏹ ' + tr('voice.stopBtn') + '</button>' +
+          '<button type="button" class="vn-rec-upload" hidden>🚀 ' + tr('voice.uploadBtn') + '</button>' +
           '<button type="button" class="vn-rec-download" hidden>↓ voice-' + clip + '</button>' +
           '<audio class="vn-rec-preview" controls hidden></audio>' +
           '<div class="vn-rec-help">' + tr('voice.helpText').replace('{clip}', clip) + '</div>';
@@ -5218,6 +5446,7 @@
         const timer = rec.querySelector('.vn-rec-timer');
         const preview = rec.querySelector('.vn-rec-preview');
         const dlBtn = rec.querySelector('.vn-rec-download');
+        const ulBtn = rec.querySelector('.vn-rec-upload');
 
         let mr = null;
         let chunks = [];
@@ -5238,6 +5467,12 @@
               preview.src = URL.createObjectURL(lastBlob);
               preview.hidden = false;
               dlBtn.hidden = false;
+              ulBtn.hidden = false;
+              ulBtn.disabled = !isGhConfigured();
+              if (!isGhConfigured()) ulBtn.title = tr('voice.uploadNeedsConfig');
+              else ulBtn.title = '';
+              ulBtn.className = 'vn-rec-upload';
+              ulBtn.textContent = '🚀 ' + tr('voice.uploadBtn');
               stream.getTracks().forEach(t => t.stop());
             };
             mr.start();
@@ -5247,6 +5482,7 @@
             recBtn.hidden = true;
             preview.hidden = true;
             dlBtn.hidden = true;
+            ulBtn.hidden = true;
             timerId = setInterval(() => {
               timer.textContent = fmtVnTime((Date.now() - startTime) / 1000);
             }, 100);
@@ -5264,21 +5500,207 @@
           recBtn.textContent = '🎤 ' + tr('voice.reRecBtn');
         });
 
+        function blobExt() {
+          if (mime.includes('mp4')) return 'mp4';
+          if (mime.includes('ogg')) return 'ogg';
+          if (mime.includes('mp3') || mime.includes('mpeg')) return 'mp3';
+          return 'webm';
+        }
+
         dlBtn.addEventListener('click', () => {
           if (!lastBlob) return;
-          let ext = 'webm';
-          if (mime.includes('mp4')) ext = 'mp4';
-          else if (mime.includes('ogg')) ext = 'ogg';
-          else if (mime.includes('mp3') || mime.includes('mpeg')) ext = 'mp3';
           const a = document.createElement('a');
           a.href = URL.createObjectURL(lastBlob);
-          a.download = 'voice-' + clip + '.' + ext;
+          a.download = 'voice-' + clip + '.' + blobExt();
           document.body.appendChild(a);
           a.click();
           a.remove();
         });
+
+        ulBtn.addEventListener('click', async () => {
+          if (!lastBlob || !isGhConfigured()) return;
+          const filename = 'voice-' + clip + '.' + blobExt();
+          ulBtn.disabled = true;
+          ulBtn.className = 'vn-rec-upload uploading';
+          ulBtn.textContent = '⏳ ' + tr('voice.uploading');
+          try {
+            await uploadToGithub(filename, lastBlob);
+            ulBtn.className = 'vn-rec-upload success';
+            ulBtn.textContent = '✓ ' + tr('voice.uploadOK');
+            // Re-enable after a moment so they can re-upload if needed
+            setTimeout(() => {
+              ulBtn.disabled = false;
+              ulBtn.className = 'vn-rec-upload';
+              ulBtn.textContent = '🚀 ' + tr('voice.uploadAgain');
+            }, 3000);
+          } catch (err) {
+            ulBtn.className = 'vn-rec-upload error';
+            ulBtn.textContent = '✗ ' + tr('voice.uploadErr');
+            ulBtn.disabled = false;
+            alert('Upload failed: ' + err.message);
+            setTimeout(() => {
+              ulBtn.className = 'vn-rec-upload';
+              ulBtn.textContent = '🚀 ' + tr('voice.uploadBtn');
+            }, 4000);
+          }
+        });
       });
     }
+
+    // ===== GitHub setup + upload =====
+    const GH_KEY = 'al-zahrawi-gh-config';
+    function getGhConfig() {
+      try { return JSON.parse(localStorage.getItem(GH_KEY) || '{}'); }
+      catch (e) { return {}; }
+    }
+    function setGhConfig(cfg) { localStorage.setItem(GH_KEY, JSON.stringify(cfg)); }
+    function clearGhConfig() { localStorage.removeItem(GH_KEY); }
+    function isGhConfigured() {
+      const c = getGhConfig();
+      return !!(c.owner && c.repo && c.token);
+    }
+
+    function blobToBase64(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const dataUrl = String(reader.result || '');
+          const idx = dataUrl.indexOf(',');
+          resolve(idx >= 0 ? dataUrl.slice(idx + 1) : dataUrl);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    async function uploadToGithub(filename, blob) {
+      const cfg = getGhConfig();
+      if (!cfg.owner || !cfg.repo || !cfg.token) throw new Error('GitHub not configured');
+      const branch = cfg.branch || 'main';
+      const path = 'audio/' + filename;
+      const apiBase = 'https://api.github.com/repos/' + encodeURIComponent(cfg.owner) + '/' + encodeURIComponent(cfg.repo) + '/contents/' + path;
+      // 1. Check if file exists already (need its SHA to update it)
+      let sha = null;
+      try {
+        const checkRes = await fetch(apiBase + '?ref=' + encodeURIComponent(branch), {
+          headers: {
+            'Authorization': 'Bearer ' + cfg.token,
+            'Accept': 'application/vnd.github+json'
+          }
+        });
+        if (checkRes.ok) {
+          const data = await checkRes.json();
+          sha = data.sha;
+        }
+      } catch (e) { /* fine, file probably doesn't exist yet */ }
+      // 2. Convert blob → base64
+      const content = await blobToBase64(blob);
+      // 3. PUT to GitHub
+      const body = {
+        message: 'Add narration: ' + filename,
+        content: content,
+        branch: branch
+      };
+      if (sha) body.sha = sha;
+      const res = await fetch(apiBase, {
+        method: 'PUT',
+        headers: {
+          'Authorization': 'Bearer ' + cfg.token,
+          'Accept': 'application/vnd.github+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+      if (!res.ok) {
+        let detail = '';
+        try { const data = await res.json(); detail = ' — ' + (data.message || ''); } catch (e) {}
+        const err = new Error('HTTP ' + res.status + detail);
+        if (res.status === 401) throw new Error('Token rejected (401). Check the PAT is correct.');
+        if (res.status === 403) throw new Error('Forbidden (403). Token lacks write permission for this repo.');
+        if (res.status === 404) throw new Error('Repo not found (404). Check owner/repo names.');
+        throw err;
+      }
+      return res.json();
+    }
+
+    function initGithubSetupPanel() {
+      const panel = document.getElementById('ghSetup');
+      if (!panel) return;
+      const ownerIn = panel.querySelector('#ghOwner');
+      const repoIn  = panel.querySelector('#ghRepo');
+      const tokenIn = panel.querySelector('#ghToken');
+      const branchIn = panel.querySelector('#ghBranch');
+      const saveBtn = panel.querySelector('#ghSaveBtn');
+      const clearBtn = panel.querySelector('#ghClearBtn');
+      const status = panel.querySelector('#ghStatus');
+
+      // Load existing config
+      const cfg = getGhConfig();
+      ownerIn.value = cfg.owner || '';
+      repoIn.value = cfg.repo || '';
+      tokenIn.value = cfg.token || '';
+      branchIn.value = cfg.branch || 'main';
+      if (isGhConfigured()) {
+        status.className = 'gh-status ok';
+        status.textContent = '✓ ' + tr('gh.statusSaved');
+      }
+
+      saveBtn.addEventListener('click', async () => {
+        const owner = ownerIn.value.trim();
+        const repo = repoIn.value.trim();
+        const token = tokenIn.value.trim();
+        const branch = branchIn.value.trim() || 'main';
+        if (!owner || !repo || !token) {
+          status.className = 'gh-status err';
+          status.textContent = '✗ ' + tr('gh.statusMissing');
+          return;
+        }
+        // Quick connectivity test by reading repo metadata
+        status.className = 'gh-status';
+        status.textContent = '⏳ ' + tr('gh.statusTesting');
+        try {
+          const res = await fetch('https://api.github.com/repos/' + encodeURIComponent(owner) + '/' + encodeURIComponent(repo), {
+            headers: {
+              'Authorization': 'Bearer ' + token,
+              'Accept': 'application/vnd.github+json'
+            }
+          });
+          if (!res.ok) {
+            if (res.status === 401) throw new Error('Token rejected (401)');
+            if (res.status === 404) throw new Error('Repo not found (404)');
+            throw new Error('HTTP ' + res.status);
+          }
+          setGhConfig({ owner, repo, token, branch });
+          status.className = 'gh-status ok';
+          status.textContent = '✓ ' + tr('gh.statusConnected');
+          // Re-evaluate enabled state on any upload buttons that exist
+          document.querySelectorAll('.vn-rec-upload').forEach(b => {
+            if (!b.hidden) {
+              b.disabled = false;
+              b.title = '';
+            }
+          });
+        } catch (e) {
+          status.className = 'gh-status err';
+          status.textContent = '✗ ' + e.message;
+        }
+      });
+
+      clearBtn.addEventListener('click', () => {
+        clearGhConfig();
+        ownerIn.value = '';
+        repoIn.value = '';
+        tokenIn.value = '';
+        branchIn.value = 'main';
+        status.className = 'gh-status';
+        status.textContent = tr('gh.statusCleared');
+        document.querySelectorAll('.vn-rec-upload').forEach(b => {
+          b.disabled = true;
+          b.title = tr('voice.uploadNeedsConfig');
+        });
+      });
+    }
+    initGithubSetupPanel();
 
     setupVoiceNotes();
 
