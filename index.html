@@ -1692,44 +1692,88 @@
       100% { transform: translateX(100%); opacity: 0; }
     }
 
-    /* Modal */
+    /* Modal — light parchment card on a soft sepia backdrop */
     .modal-back {
       position: fixed; inset: 0;
-      background: rgba(5,12,20,0.85); backdrop-filter: blur(6px);
+      background: rgba(45,30,15,0.45); backdrop-filter: blur(8px);
       display: none; align-items: center; justify-content: center;
       z-index: 200; padding: 20px;
     }
     .modal-back.open { display: flex; animation: fadeIn 0.3s; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     .modal {
-      background: linear-gradient(180deg, #14283e, #0b1b2c);
-      border: 1px solid var(--gold); border-radius: 16px;
+      background: linear-gradient(180deg, #fdf6e7 0%, #f5e5c4 100%);
+      border: 2px solid var(--gold);
+      border-radius: 18px;
       max-width: 560px; width: 100%; padding: 36px 32px;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,168,87,0.15);
+      box-shadow:
+        inset 0 0 0 1px rgba(212,168,87,0.4),
+        0 30px 70px rgba(45,30,15,0.4),
+        0 0 0 1px rgba(58,37,16,0.15);
       position: relative; animation: pop 0.4s;
+      color: var(--cream);
     }
     @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .modal .close {
       position: absolute; top: 14px;
       right: 18px;
-      background: transparent; border: none; color: var(--gold-light);
+      background: transparent; border: none;
+      color: var(--gold-dark);
       font-size: 1.8rem; cursor: pointer; line-height: 1;
+      font-weight: 700;
+      transition: color 0.2s, transform 0.2s;
     }
+    .modal .close:hover { color: #c84e2a; transform: scale(1.15); }
     body[data-lang="ar"] .modal .close { left: 18px; right: auto; }
-    .modal svg { width: 110px; height: 110px; display: block; margin: 0 auto; filter: drop-shadow(0 8px 14px rgba(0,0,0,0.55)); }
-    .modal h3 { text-align: center; color: var(--gold-bright); font-size: 1.5rem; margin-top: 14px; }
-    .modal .m-arabic { text-align: center; font-family: 'Amiri', serif; direction: rtl; color: var(--gold-light); font-size: 1.4rem; margin-top: 4px; }
-    body[data-lang="ar"] .modal .m-arabic { display: none; }
-    .modal .m-desc { margin-top: 18px; color: var(--parchment); font-size: 1.02rem; line-height: 1.65; }
-    body[data-lang="ar"] .modal .m-desc { font-size: 1.1rem; line-height: 1.85; }
-    .modal .m-fact {
-      margin-top: 16px; padding: 14px 16px;
-      background: rgba(212,168,87,0.08);
-      border-left: 3px solid var(--gold); border-radius: 6px;
-      font-family: 'Cormorant Garamond', serif; font-style: italic;
-      color: var(--cream); font-size: 1.05rem;
+    .modal svg {
+      width: 110px; height: 110px; display: block; margin: 0 auto;
+      filter: drop-shadow(0 6px 12px rgba(58,37,16,0.18));
     }
-    body[data-lang="ar"] .modal .m-fact { font-family: 'Cairo', sans-serif; font-style: normal; border-left: none; border-right: 3px solid var(--gold); font-size: 1.15rem; }
+    .modal h3 {
+      text-align: center;
+      color: var(--gold-dark);
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-top: 16px;
+    }
+    .modal .m-arabic {
+      text-align: center;
+      font-family: 'Amiri', serif; direction: rtl;
+      color: var(--gold);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+    body[data-lang="ar"] .modal .m-arabic { display: none; }
+    .modal .m-desc {
+      margin-top: 18px;
+      color: var(--cream);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+    body[data-lang="ar"] .modal .m-desc { font-size: 1.15rem; line-height: 1.9; }
+    .modal .m-desc em { color: var(--gold-dark); font-style: italic; font-weight: 600; }
+    .modal .m-fact {
+      margin-top: 16px;
+      padding: 14px 18px;
+      background: rgba(107,77,34,0.08);
+      border-left: 4px solid var(--gold);
+      border-radius: 8px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--cream);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    body[data-lang="ar"] .modal .m-fact {
+      font-family: 'Cairo', sans-serif;
+      font-style: normal;
+      border-left: none;
+      border-right: 4px solid var(--gold);
+      font-size: 1.15rem;
+      line-height: 1.85;
+    }
+    .modal .m-fact em { color: var(--gold-dark); font-style: normal; font-weight: 700; }
 
     /* ===== MAP ===== */
     .map-wrap {
