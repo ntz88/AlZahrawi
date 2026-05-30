@@ -39,7 +39,7 @@
       background-attachment: fixed;
       color: var(--cream); line-height: 1.7;
       overflow-x: hidden; min-height: 100vh;
-      font-size: 17px; /* slightly larger base for Grade 4 readers */
+      font-size: 17px; /* slightly larger base for Year 4 readers */
     }
     /* Visual rhythm: a few content-heavy sections get a slightly lighter "page" tint
        so the eye gets a natural rest between dark interactive moments.
@@ -4312,14 +4312,15 @@
         "quiz.msg60": "جهد رائع — حاول مرة أخرى لتتحسن النتيجة!",
         "quiz.msglow": "محاولة أولى جيدة — ارجع للأعلى واقرأ مرة أخرى!",
         // Footer
-        "footer.tag": "مشروع التربية الإسلامية للسنة الرابعة — صَنَعتُه بحُبّ.",
+        "footer.tag": "مشروع التربية الإسلامية الصف الرابع صَنَعتُه بحُبّ.",
         // Voice narration
         "voice.listen":  "🎤 استمع إلى تيسير يحكي هذا الجزء",
         "voice.empty":   "(لم يتم تسجيل صوت لهذا الجزء بعد)",
         "voice.recBtn":  "سجّل",
         "voice.reRecBtn":"أعد التسجيل",
         "voice.stopBtn": "أوقف",
-        "voice.helpText":"اضغط «سجّل» وتكلّم. لمّا تنتهي اضغط «🚀» للحفظ مباشرة على GitHub، أو «↓» لتنزيل الملف بصيغة voice-{clip}.webm.",
+        "voice.helpText":"اضغط «سجّل» وتكلّم. لمّا تنتهي اضغط «🚀» للحفظ مباشرة على GitHub، أو «↓» لتنزيل الملف بصيغة voice-{clip}.wav (تشتغل على الآيفون أيضاً).",
+        "voice.converting": "جاري تجهيز الملف ليعمل على الآيفون...",
         "voice.uploadBtn": "احفظ على GitHub",
         "voice.uploadAgain": "احفظ مرة أخرى",
         "voice.uploading": "جاري الرفع...",
@@ -4515,7 +4516,8 @@
         "voice.recBtn":  "Record",
         "voice.reRecBtn":"Re-record",
         "voice.stopBtn": "Stop",
-        "voice.helpText":"Press Record and speak. When done, press 🚀 to upload straight to GitHub, or ↓ to download voice-{clip}.webm.",
+        "voice.helpText":"Press Record and speak. When done, press 🚀 to upload straight to GitHub, or ↓ to download voice-{clip}.wav (plays on iPhone too).",
+        "voice.converting": "Converting so it plays on iPhone too...",
         "voice.uploadBtn": "Save to GitHub",
         "voice.uploadAgain": "Save again",
         "voice.uploading": "Uploading...",
@@ -5458,9 +5460,10 @@
     // Audio files are loaded from /audio/voice-<clip>.<ext>. If the file
     // doesn't exist (404), the player shows an "empty" state.
     function setupVoiceNotes() {
-      // Try multiple extensions so it works whether the recording was
-      // made on Chrome (webm) or Safari (mp4).
-      const exts = ['webm', 'mp4', 'mp3', 'ogg'];
+      // Try multiple extensions, iOS-compatible ones first.
+      // iOS WebKit (Safari + iOS Chrome) can NOT play .webm — so we
+      // try mp4 / m4a / wav / mp3 / ogg before falling back to webm.
+      const exts = ['mp4', 'm4a', 'wav', 'mp3', 'ogg', 'webm'];
       document.querySelectorAll('.voice-note').forEach(el => {
         const clip = el.dataset.clip;
         if (!clip) return;
@@ -5535,6 +5538,80 @@
       return m + ':' + (s < 10 ? '0' + s : s);
     }
 
+    // ===============================
+    // 11b. WAV encoder
+    //
+    // iOS Safari/Chrome can't play WebM. MediaRecorder on Chrome/Mac
+    // produces audio/webm by default, so we transparently re-encode
+    // every recording into a 22 kHz mono WAV file before upload.
+    // WAV plays on every browser ever made, including iOS.
+    // ===============================
+    function _wavWriteStr(view, offset, str) {
+      for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+    }
+    function audioBufferToWavBlob(audioBuffer, targetRate) {
+      targetRate = targetRate || 22050;
+      const numChan = audioBuffer.numberOfChannels;
+      const srcRate = audioBuffer.sampleRate;
+      const ratio = srcRate / targetRate;
+      const chs = [];
+      for (let c = 0; c < numChan; c++) chs.push(audioBuffer.getChannelData(c));
+      const outLen = Math.max(1, Math.floor(audioBuffer.length / ratio));
+      const mono = new Float32Array(outLen);
+      // Simple linear-interpolation downsample, downmix to mono
+      for (let i = 0; i < outLen; i++) {
+        const srcPos = i * ratio;
+        const i0 = Math.floor(srcPos);
+        const i1 = Math.min(i0 + 1, audioBuffer.length - 1);
+        const frac = srcPos - i0;
+        let s = 0;
+        for (let c = 0; c < numChan; c++) {
+          const a = chs[c][i0] || 0;
+          const b = chs[c][i1] || 0;
+          s += a + (b - a) * frac;
+        }
+        mono[i] = s / numChan;
+      }
+      const byteRate = targetRate * 2; // mono, 16-bit
+      const dataLen = mono.length * 2;
+      const buffer = new ArrayBuffer(44 + dataLen);
+      const view = new DataView(buffer);
+      _wavWriteStr(view, 0, 'RIFF');
+      view.setUint32(4, 36 + dataLen, true);
+      _wavWriteStr(view, 8, 'WAVE');
+      _wavWriteStr(view, 12, 'fmt ');
+      view.setUint32(16, 16, true);    // PCM chunk size
+      view.setUint16(20, 1, true);     // PCM format
+      view.setUint16(22, 1, true);     // mono
+      view.setUint32(24, targetRate, true);
+      view.setUint32(28, byteRate, true);
+      view.setUint16(32, 2, true);     // block align
+      view.setUint16(34, 16, true);    // bits per sample
+      _wavWriteStr(view, 36, 'data');
+      view.setUint32(40, dataLen, true);
+      for (let i = 0; i < mono.length; i++) {
+        let s = Math.max(-1, Math.min(1, mono[i]));
+        view.setInt16(44 + i * 2, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+      }
+      return new Blob([buffer], { type: 'audio/wav' });
+    }
+    async function recodeBlobToWav(blob) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) throw new Error('Web Audio not supported');
+      const ctx = new AC();
+      try {
+        const arr = await blob.arrayBuffer();
+        const decoded = await new Promise((resolve, reject) => {
+          // Use callback form for max browser compat
+          try { ctx.decodeAudioData(arr.slice(0), resolve, reject); }
+          catch (e) { reject(e); }
+        });
+        return audioBufferToWavBlob(decoded, 22050);
+      } finally {
+        try { ctx.close(); } catch (e) {}
+      }
+    }
+
     // ===== Edit mode (URL has ?edit=1 or ?edit) =====
     if (/[?&]edit(=1)?(&|$)/.test(location.search)) {
       document.body.classList.add('is-edit-mode');
@@ -5578,9 +5655,27 @@
             mr = new MediaRecorder(stream);
             chunks = [];
             mr.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
-            mr.onstop = () => {
-              mime = mr.mimeType || 'audio/webm';
-              lastBlob = new Blob(chunks, { type: mime });
+            mr.onstop = async () => {
+              const rawMime = mr.mimeType || 'audio/webm';
+              const rawBlob = new Blob(chunks, { type: rawMime });
+              stream.getTracks().forEach(t => t.stop());
+
+              // Show "converting" state while we re-encode to WAV
+              // (so the file plays on iPhone too).
+              const labelEl = rec.querySelector('.vn-rec-help');
+              const prevLabel = labelEl ? labelEl.textContent : '';
+              if (labelEl) labelEl.textContent = tr('voice.converting');
+              try {
+                lastBlob = await recodeBlobToWav(rawBlob);
+                mime = 'audio/wav';
+              } catch (err) {
+                // If Web Audio can't decode (rare on desktop), keep the raw blob.
+                console.warn('WAV re-encode failed, keeping native format:', err);
+                lastBlob = rawBlob;
+                mime = rawMime;
+              }
+              if (labelEl) labelEl.textContent = prevLabel;
+
               preview.src = URL.createObjectURL(lastBlob);
               preview.hidden = false;
               dlBtn.hidden = false;
@@ -5590,7 +5685,6 @@
               else ulBtn.title = '';
               ulBtn.className = 'vn-rec-upload';
               ulBtn.textContent = '🚀 ' + tr('voice.uploadBtn');
-              stream.getTracks().forEach(t => t.stop());
             };
             mr.start();
             startTime = Date.now();
@@ -5618,6 +5712,7 @@
         });
 
         function blobExt() {
+          if (mime.includes('wav')) return 'wav';
           if (mime.includes('mp4')) return 'mp4';
           if (mime.includes('ogg')) return 'ogg';
           if (mime.includes('mp3') || mime.includes('mpeg')) return 'mp3';
