@@ -226,6 +226,52 @@
       from { transform: translate(-50%, -50%) rotate(0deg); }
       to   { transform: translate(-50%, -50%) rotate(360deg); }
     }
+    /* Student & project info in the hero */
+    .hero-pill {
+      display: inline-block;
+      padding: 7px 18px;
+      background: rgba(212,168,87,0.14);
+      border: 1.5px solid var(--gold);
+      border-radius: 999px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      color: var(--gold-dark);
+      text-transform: uppercase;
+      margin-bottom: 26px;
+      box-shadow: 0 4px 14px rgba(212,168,87,0.18);
+    }
+    body[data-lang="ar"] .hero-pill {
+      font-family: 'Cairo', sans-serif;
+      letter-spacing: 0;
+      text-transform: none;
+      font-size: 0.95rem;
+    }
+    .hero-credit {
+      margin-top: 24px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--parchment);
+      font-size: 1.02rem;
+      line-height: 1.6;
+    }
+    body[data-lang="ar"] .hero-credit {
+      font-family: 'Cairo', sans-serif;
+      font-style: normal;
+      font-size: 1.08rem;
+    }
+    .hero-credit strong {
+      color: var(--gold-dark);
+      font-weight: 700;
+      font-style: normal;
+    }
+    .hero-credit .dot-sep {
+      color: var(--gold);
+      margin: 0 8px;
+      opacity: 0.7;
+    }
+
     .hero h1.arabic {
       font-size: clamp(3rem, 7vw, 5.5rem);
       color: var(--gold-bright);
@@ -2283,6 +2329,21 @@
     footer .sources { margin-top: 16px; font-size: 0.8rem; }
     footer .sources a { color: var(--parchment); opacity: 0.6; text-decoration: none; }
     footer .sources a:hover { color: var(--gold-light); opacity: 1; }
+    footer p.footer-byline {
+      display: inline-block;
+      margin: 14px auto 8px;
+      padding: 8px 22px;
+      background: rgba(212,168,87,0.12);
+      border: 1px solid rgba(212,168,87,0.45);
+      border-radius: 999px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--parchment);
+      opacity: 1;
+    }
+    body[data-lang="ar"] footer p.footer-byline { font-family: 'Cairo', sans-serif; font-style: normal; }
+    footer p.footer-byline strong { color: var(--gold-dark); font-weight: 700; font-style: normal; }
 
     /* ===== READABILITY FLOOR ===== */
     /* Year 4 readers benefit from a minimum body text size of ~14px. */
@@ -2770,6 +2831,7 @@
     </svg>
 
     <div style="position:relative; z-index:2;">
+      <div class="hero-pill" data-i18n="hero.subject">مشروع التربية الإسلامية · السنة الرابعة</div>
       <h1 class="arabic">أبو القاسم الزَّهْراوي</h1>
       <div class="latin-name" data-i18n="hero.name">أبو القاسم خَلَف بن العَبّاس الزَّهْراوي</div>
       <div class="ornament">
@@ -2780,6 +2842,10 @@
       <div class="title-line" data-i18n="hero.title">أبو الجِراحَة الحديثة</div>
       <div class="lifespan" data-i18n="hero.lifespan">936 — 1013م · قُرْطُبَة، الأندلس</div>
 
+      <div class="hero-credit" data-i18n="hero.credit">
+        بقلم <strong>تيسير الزير</strong> <span class="dot-sep">·</span> مدرسة فيكتوري هايتس الابتدائية، دبي
+      </div>
+
       <div class="voice-note" data-clip="hero">
         <button class="vn-btn" type="button" aria-label="Play narration">
           <svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
@@ -2788,7 +2854,7 @@
         <div class="vn-info">
           <div class="vn-label">
             <span class="vn-icon">🎤</span>
-            <span class="vn-text" data-i18n="voice.listen">استمع إلى مقدمتي</span>
+            <span class="vn-text" data-i18n="voice.listen">استمع إلى تيسير يحكي هذا الجزء</span>
           </div>
           <div class="vn-progress"><div class="vn-progress-fill"></div></div>
           <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
@@ -2812,7 +2878,7 @@
     <div class="voice-note" data-clip="intro">
       <button class="vn-btn" type="button" aria-label="Play narration"><svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vn-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg></button>
       <div class="vn-info">
-        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى ناصر يحكي هذا الجزء</span></div>
+        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى تيسير يحكي هذا الجزء</span></div>
         <div class="vn-progress"><div class="vn-progress-fill"></div></div>
         <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
       </div>
@@ -2870,7 +2936,7 @@
     <div class="voice-note" data-clip="journey">
       <button class="vn-btn" type="button" aria-label="Play narration"><svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vn-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg></button>
       <div class="vn-info">
-        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى ناصر يحكي هذا الجزء</span></div>
+        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى تيسير يحكي هذا الجزء</span></div>
         <div class="vn-progress"><div class="vn-progress-fill"></div></div>
         <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
       </div>
@@ -3491,7 +3557,7 @@
     <div class="voice-note" data-clip="tasrif">
       <button class="vn-btn" type="button" aria-label="Play narration"><svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vn-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg></button>
       <div class="vn-info">
-        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى ناصر يحكي هذا الجزء</span></div>
+        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى تيسير يحكي هذا الجزء</span></div>
         <div class="vn-progress"><div class="vn-progress-fill"></div></div>
         <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
       </div>
@@ -3534,7 +3600,7 @@
     <div class="voice-note" data-clip="instruments">
       <button class="vn-btn" type="button" aria-label="Play narration"><svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vn-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg></button>
       <div class="vn-info">
-        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى ناصر يحكي هذا الجزء</span></div>
+        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى تيسير يحكي هذا الجزء</span></div>
         <div class="vn-progress"><div class="vn-progress-fill"></div></div>
         <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
       </div>
@@ -3669,7 +3735,7 @@
     <div class="voice-note" data-clip="map">
       <button class="vn-btn" type="button" aria-label="Play narration"><svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vn-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg></button>
       <div class="vn-info">
-        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى ناصر يحكي هذا الجزء</span></div>
+        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى تيسير يحكي هذا الجزء</span></div>
         <div class="vn-progress"><div class="vn-progress-fill"></div></div>
         <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
       </div>
@@ -3901,7 +3967,7 @@
     <div class="voice-note" data-clip="values">
       <button class="vn-btn" type="button" aria-label="Play narration"><svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vn-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg></button>
       <div class="vn-info">
-        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى ناصر يحكي هذا الجزء</span></div>
+        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى تيسير يحكي هذا الجزء</span></div>
         <div class="vn-progress"><div class="vn-progress-fill"></div></div>
         <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
       </div>
@@ -4014,7 +4080,7 @@
     <div class="voice-note" data-clip="legacy">
       <button class="vn-btn" type="button" aria-label="Play narration"><svg class="vn-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="vn-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg></button>
       <div class="vn-info">
-        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى ناصر يحكي هذا الجزء</span></div>
+        <div class="vn-label"><span class="vn-icon">🎤</span><span class="vn-text" data-i18n="voice.listen">استمع إلى تيسير يحكي هذا الجزء</span></div>
         <div class="vn-progress"><div class="vn-progress-fill"></div></div>
         <div class="vn-time"><span class="vn-current">0:00</span><span class="vn-duration">0:00</span></div>
       </div>
@@ -4056,6 +4122,7 @@
       <svg class="star" viewBox="0 0 24 24" fill="#d4a857"><polygon points="12,2 14,9 21,9 15.5,13.5 17.5,21 12,16.5 6.5,21 8.5,13.5 3,9 10,9"/></svg>
       <span class="line"></span></div>
     <p class="serif" data-i18n="footer.tag">مشروع للسنة الرابعة في التربية الإسلامية، أُعِدّ بحُبّ.</p>
+    <p class="footer-byline" data-i18n="footer.byline">صَنَعه <strong>تيسير الزير</strong> · مدرسة فيكتوري هايتس الابتدائية، دبي</p>
     <p data-i18n="footer.honor">إكراماً لإرث <strong>أبي القاسم الزَّهْراوي</strong> · 936 — 1013م · قُرْطُبَة</p>
     <p class="sources">
       <span data-i18n="footer.srclabel">المصادر:</span>
@@ -4087,6 +4154,8 @@
         "hero.title": "أبو الجِراحَة الحديثة",
         "hero.lifespan": "936 — 1013م · قُرْطُبَة، الأندلس",
         "hero.scroll": "انزل",
+        "hero.subject": "مشروع التربية الإسلامية · السنة الرابعة",
+        "hero.credit": "بقلم <strong>تيسير الزير</strong> <span class=\"dot-sep\">·</span> مدرسة فيكتوري هايتس الابتدائية، دبي",
         // Intro
         "intro.title": "من هو الزَّهْراوي؟",
         "intro.paint.title": "الزَّهْراوي يعالج مريضاً في مستشفى قُرْطُبَة",
@@ -4245,7 +4314,7 @@
         // Footer
         "footer.tag": "مشروع التربية الإسلامية للسنة الرابعة — صَنَعتُه بحُبّ.",
         // Voice narration
-        "voice.listen":  "🎤 استمع إلى ناصر يحكي هذا الجزء",
+        "voice.listen":  "🎤 استمع إلى تيسير يحكي هذا الجزء",
         "voice.empty":   "(لم يتم تسجيل صوت لهذا الجزء بعد)",
         "voice.recBtn":  "سجّل",
         "voice.reRecBtn":"أعد التسجيل",
@@ -4273,6 +4342,7 @@
         "gh.statusCleared": "تم المسح",
         "gh.help": "تحتاج رمزاً (PAT)؟ اذهب إلى GitHub ← Settings ← Developer settings ← Personal access tokens ← Fine-grained tokens ← Generate. حدّد هذا المستودع فقط، وفعّل صلاحية \"Contents: Read and write\". ثم انسخه هنا.",
         "footer.honor": "إكراماً لإرث <strong>أبي القاسم الزَّهْراوي</strong> · 936 — 1013م · قُرْطُبَة",
+        "footer.byline": "صَنَعه <strong>تيسير الزير</strong> · مدرسة فيكتوري هايتس الابتدائية، دبي",
         "footer.srclabel": "المصادر:"
       },
       en: {
@@ -4289,6 +4359,8 @@
         "hero.title": "The Father of Modern Surgery",
         "hero.lifespan": "936 — 1013 CE  ·  CORDOBA, AL-ANDALUS",
         "hero.scroll": "SCROLL",
+        "hero.subject": "Year 4 · Islamic Studies Project",
+        "hero.credit": "By <strong>Tayseer AlZier</strong> <span class=\"dot-sep\">·</span> Victory Heights Primary School, Dubai",
         "intro.title": "Who was al-Zahrawi?",
         "intro.paint.title": "Al-Zahrawi treating a patient in the hospital at Córdoba",
         "intro.paint.attrib": 'OIL PAINTING BY ERNEST BOARD, c. 1912 · <a href="https://wellcomecollection.org/works/r9tkjm8c" target="_blank" rel="noopener">WELLCOME COLLECTION</a> · PUBLIC DOMAIN',
@@ -4438,7 +4510,7 @@
         "quiz.msglow": "Good first go — scroll back up and try again to learn more!",
         "footer.tag": "A Year 4 Islamic Studies project, made with care.",
         // Voice narration
-        "voice.listen":  "🎤 Listen to Naser narrate this part",
+        "voice.listen":  "🎤 Listen to Tayseer narrate this part",
         "voice.empty":   "(No narration recorded for this part yet)",
         "voice.recBtn":  "Record",
         "voice.reRecBtn":"Re-record",
@@ -4466,6 +4538,7 @@
         "gh.statusCleared": "Cleared",
         "gh.help": "Need a token? Go to GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate. Scope it to just this one repo, with \"Contents: Read and write\" permission. Paste it above.",
         "footer.honor": "Honouring the legacy of <strong>Abu al-Qasim al-Zahrawi</strong> · 936 — 1013 CE · Cordoba",
+        "footer.byline": "Made by <strong>Tayseer AlZier</strong> · Victory Heights Primary School, Dubai",
         "footer.srclabel": "Sources include:"
       }
     };
