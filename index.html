@@ -248,28 +248,138 @@
       text-transform: none;
       font-size: 0.95rem;
     }
-    .hero-credit {
-      margin-top: 24px;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      color: var(--parchment);
-      font-size: 1.02rem;
-      line-height: 1.6;
+    /* === STUDENT CARD — prominent credit with school logo === */
+    .student-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+      margin: 32px auto 8px;
+      padding: 16px 24px 16px 16px;
+      background: linear-gradient(135deg, #fff8e7 0%, #f5e8c4 100%);
+      border: 2px solid var(--gold);
+      border-radius: 18px;
+      box-shadow:
+        0 10px 28px rgba(139,100,32,0.3),
+        0 2px 6px rgba(46,31,12,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.7);
+      text-align: left;
+      max-width: 520px;
     }
-    body[data-lang="ar"] .hero-credit {
-      font-family: 'Cairo', sans-serif;
-      font-style: normal;
-      font-size: 1.08rem;
+    body[data-lang="ar"] .student-card {
+      text-align: right;
+      padding: 16px 16px 16px 24px;
     }
-    .hero-credit strong {
+    .vh-logo-wrap {
+      position: relative;
+      width: 72px; height: 72px;
+      flex-shrink: 0;
+      border-radius: 50%;
+    }
+    .vh-logo {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2.5px solid var(--gold);
+      background: #fff8e7;
+      box-shadow: 0 4px 12px rgba(46,31,12,0.25);
+      display: block;
+    }
+    .vh-logo-fallback {
+      display: none;
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2.5px solid var(--gold);
+      background: linear-gradient(135deg, #7a1422 0%, #5a0e18 100%);
+      color: #f5e8c4;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 1.7rem;
+      letter-spacing: 0.04em;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(46,31,12,0.25);
+    }
+    .vh-logo-wrap.img-failed .vh-logo { display: none; }
+    .vh-logo-wrap.img-failed .vh-logo-fallback { display: flex; }
+
+    .student-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+    .by-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.24em;
       color: var(--gold-dark);
-      font-weight: 700;
-      font-style: normal;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+      opacity: 0.85;
     }
-    .hero-credit .dot-sep {
-      color: var(--gold);
-      margin: 0 8px;
-      opacity: 0.7;
+    body[data-lang="ar"] .by-label {
+      font-family: 'Cairo', sans-serif;
+      letter-spacing: 0;
+      text-transform: none;
+      font-size: 0.92rem;
+    }
+    .student-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--gold-dark);
+      line-height: 1.1;
+      letter-spacing: 0.01em;
+    }
+    body[data-lang="ar"] .student-name {
+      font-family: 'Cairo', sans-serif;
+      font-size: 1.85rem;
+    }
+    /* Show only the script that matches the current language */
+    .student-name.latin { display: none; }
+    body[data-lang="en"] .student-name:not(.latin) { display: none; }
+    body[data-lang="en"] .student-name.latin { display: block; }
+
+    .student-school {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--parchment);
+      margin-top: 3px;
+      line-height: 1.35;
+    }
+    body[data-lang="ar"] .student-school {
+      font-family: 'Cairo', sans-serif;
+      font-size: 1rem;
+    }
+    .student-grade {
+      display: inline-block;
+      margin-top: 9px;
+      padding: 4px 14px;
+      background: var(--gold);
+      color: #fff8e7;
+      border-radius: 999px;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.74rem;
+      letter-spacing: 0.14em;
+      align-self: flex-start;
+      box-shadow: 0 3px 8px rgba(139,100,32,0.3);
+    }
+    body[data-lang="ar"] .student-grade {
+      font-family: 'Cairo', sans-serif;
+      letter-spacing: 0;
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 560px) {
+      .student-card { gap: 14px; padding: 14px 18px 14px 14px; max-width: 100%; }
+      body[data-lang="ar"] .student-card { padding: 14px 14px 14px 18px; }
+      .vh-logo-wrap, .vh-logo { width: 60px; height: 60px; }
+      .student-name { font-size: 1.35rem; }
+      body[data-lang="ar"] .student-name { font-size: 1.5rem; }
+      .student-school { font-size: 0.86rem; }
     }
 
     .hero h1.arabic {
@@ -2982,7 +3092,7 @@
     </svg>
 
     <div style="position:relative; z-index:2;">
-      <div class="hero-pill" data-i18n="hero.subject">مشروع التربية الإسلامية · السنة الرابعة</div>
+      <div class="hero-pill" data-i18n="hero.subject">مشروع التربية الإسلامية · الصَّفّ الرابع</div>
       <h1 class="arabic">أبو القاسم الزَّهْراوي</h1>
       <div class="latin-name" data-i18n="hero.name">أبو القاسم خَلَف بن العَبّاس الزَّهْراوي</div>
       <div class="ornament">
@@ -2993,8 +3103,22 @@
       <div class="title-line" data-i18n="hero.title">أبو الجِراحَة الحديثة</div>
       <div class="lifespan" data-i18n="hero.lifespan">936 — 1013م · قُرْطُبَة، الأندلس</div>
 
-      <div class="hero-credit" data-i18n="hero.credit">
-        بقلم <strong>تيسير الزير</strong> <span class="dot-sep">·</span> مدرسة فيكتوري هايتس الابتدائية، دبي
+      <div class="student-card">
+        <span class="vh-logo-wrap">
+          <img class="vh-logo"
+               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGvJ5S8NgmYvwxkMtq8C9IeUlOmWv28ddLkg&amp;s"
+               alt="Victory Heights Primary School"
+               data-i18n-attr="alt:hero.logoAlt"
+               onerror="this.parentNode.classList.add('img-failed')">
+          <span class="vh-logo-fallback" aria-hidden="true">VH</span>
+        </span>
+        <div class="student-info">
+          <div class="by-label" data-i18n="hero.by">بقلم</div>
+          <div class="student-name">تيسير الزير</div>
+          <div class="student-name latin">Tayseer AlZier</div>
+          <div class="student-school" data-i18n="hero.school">مدرسة فيكتوري هايتس الابتدائية، دبي</div>
+          <div class="student-grade" data-i18n="hero.grade">الصَّفّ الرابع · التربية الإسلامية</div>
+        </div>
       </div>
 
       <div class="voice-note" data-clip="hero">
@@ -4272,7 +4396,7 @@
     <div class="ornament"><span class="line"></span>
       <svg class="star" viewBox="0 0 24 24" fill="#d4a857"><polygon points="12,2 14,9 21,9 15.5,13.5 17.5,21 12,16.5 6.5,21 8.5,13.5 3,9 10,9"/></svg>
       <span class="line"></span></div>
-    <p class="serif" data-i18n="footer.tag">مشروع للسنة الرابعة في التربية الإسلامية، أُعِدّ بحُبّ.</p>
+    <p class="serif" data-i18n="footer.tag">مشروع التربية الإسلامية للصَّفّ الرابع، أُعِدّ بحُبّ.</p>
     <p class="footer-byline" data-i18n="footer.byline">صَنَعه <strong>تيسير الزير</strong> · مدرسة فيكتوري هايتس الابتدائية، دبي</p>
     <p data-i18n="footer.honor">إكراماً لإرث <strong>أبي القاسم الزَّهْراوي</strong> · 936 — 1013م · قُرْطُبَة</p>
     <p class="sources">
@@ -4305,8 +4429,12 @@
         "hero.title": "أبو الجِراحَة الحديثة",
         "hero.lifespan": "936 — 1013م · قُرْطُبَة، الأندلس",
         "hero.scroll": "انزل",
-        "hero.subject": "مشروع التربية الإسلامية · السنة الرابعة",
+        "hero.subject": "مشروع التربية الإسلامية · الصَّفّ الرابع",
         "hero.credit": "بقلم <strong>تيسير الزير</strong> <span class=\"dot-sep\">·</span> مدرسة فيكتوري هايتس الابتدائية، دبي",
+        "hero.by": "بقلم",
+        "hero.school": "مدرسة فيكتوري هايتس الابتدائية، دبي",
+        "hero.grade": "الصَّفّ الرابع · التربية الإسلامية",
+        "hero.logoAlt": "شعار مدرسة فيكتوري هايتس الابتدائية",
         // Intro
         "intro.title": "من هو الزَّهْراوي؟",
         "intro.paint.title": "الزَّهْراوي يعالج مريضاً في مستشفى قُرْطُبَة",
@@ -4463,7 +4591,7 @@
         "quiz.msg60": "جهد رائع — حاول مرة أخرى لتتحسن النتيجة!",
         "quiz.msglow": "محاولة أولى جيدة — ارجع للأعلى واقرأ مرة أخرى!",
         // Footer
-        "footer.tag": "مشروع التربية الإسلامية للسنة الرابعة — صَنَعتُه بحُبّ.",
+        "footer.tag": "مشروع التربية الإسلامية للصَّفّ الرابع — صَنَعتُه بحُبّ.",
         // Voice narration
         "voice.eyebrow": "صوت تيسير",
         "voice.listen":  "🎤 استمع إلى تيسير يحكي هذا الجزء",
@@ -4512,8 +4640,12 @@
         "hero.title": "The Father of Modern Surgery",
         "hero.lifespan": "936 — 1013 CE  ·  CORDOBA, AL-ANDALUS",
         "hero.scroll": "SCROLL",
-        "hero.subject": "Year 4 · Islamic Studies Project",
+        "hero.subject": "Grade 4 · Islamic Studies Project",
         "hero.credit": "By <strong>Tayseer AlZier</strong> <span class=\"dot-sep\">·</span> Victory Heights Primary School, Dubai",
+        "hero.by": "BY",
+        "hero.school": "Victory Heights Primary School, Dubai",
+        "hero.grade": "Grade 4 · Islamic Studies",
+        "hero.logoAlt": "Victory Heights Primary School crest",
         "intro.title": "Who was al-Zahrawi?",
         "intro.paint.title": "Al-Zahrawi treating a patient in the hospital at Córdoba",
         "intro.paint.attrib": 'OIL PAINTING BY ERNEST BOARD, c. 1912 · <a href="https://wellcomecollection.org/works/r9tkjm8c" target="_blank" rel="noopener">WELLCOME COLLECTION</a> · PUBLIC DOMAIN',
@@ -4661,7 +4793,7 @@
         "quiz.msg80": "Brilliant! You know your history of surgery.",
         "quiz.msg60": "Great effort — give it another try to top your score!",
         "quiz.msglow": "Good first go — scroll back up and try again to learn more!",
-        "footer.tag": "A Year 4 Islamic Studies project, made with care.",
+        "footer.tag": "A Grade 4 Islamic Studies project, made with care.",
         // Voice narration
         "voice.eyebrow": "Tayseer's Voice",
         "voice.listen":  "🎤 Listen to Tayseer narrate this part",
@@ -5729,382 +5861,4 @@
       const ratio = srcRate / targetRate;
       const chs = [];
       for (let c = 0; c < numChan; c++) chs.push(audioBuffer.getChannelData(c));
-      const outLen = Math.max(1, Math.floor(audioBuffer.length / ratio));
-      const mono = new Float32Array(outLen);
-      // Simple linear-interpolation downsample, downmix to mono
-      for (let i = 0; i < outLen; i++) {
-        const srcPos = i * ratio;
-        const i0 = Math.floor(srcPos);
-        const i1 = Math.min(i0 + 1, audioBuffer.length - 1);
-        const frac = srcPos - i0;
-        let s = 0;
-        for (let c = 0; c < numChan; c++) {
-          const a = chs[c][i0] || 0;
-          const b = chs[c][i1] || 0;
-          s += a + (b - a) * frac;
-        }
-        mono[i] = s / numChan;
-      }
-      const byteRate = targetRate * 2; // mono, 16-bit
-      const dataLen = mono.length * 2;
-      const buffer = new ArrayBuffer(44 + dataLen);
-      const view = new DataView(buffer);
-      _wavWriteStr(view, 0, 'RIFF');
-      view.setUint32(4, 36 + dataLen, true);
-      _wavWriteStr(view, 8, 'WAVE');
-      _wavWriteStr(view, 12, 'fmt ');
-      view.setUint32(16, 16, true);    // PCM chunk size
-      view.setUint16(20, 1, true);     // PCM format
-      view.setUint16(22, 1, true);     // mono
-      view.setUint32(24, targetRate, true);
-      view.setUint32(28, byteRate, true);
-      view.setUint16(32, 2, true);     // block align
-      view.setUint16(34, 16, true);    // bits per sample
-      _wavWriteStr(view, 36, 'data');
-      view.setUint32(40, dataLen, true);
-      for (let i = 0; i < mono.length; i++) {
-        let s = Math.max(-1, Math.min(1, mono[i]));
-        view.setInt16(44 + i * 2, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
-      }
-      return new Blob([buffer], { type: 'audio/wav' });
-    }
-    async function recodeBlobToWav(blob) {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) throw new Error('Web Audio not supported');
-      const ctx = new AC();
-      try {
-        const arr = await blob.arrayBuffer();
-        const decoded = await new Promise((resolve, reject) => {
-          // Use callback form for max browser compat
-          try { ctx.decodeAudioData(arr.slice(0), resolve, reject); }
-          catch (e) { reject(e); }
-        });
-        return audioBufferToWavBlob(decoded, 22050);
-      } finally {
-        try { ctx.close(); } catch (e) {}
-      }
-    }
-
-    // ===== Edit mode (URL has ?edit=1 or ?edit) =====
-    if (/[?&]edit(=1)?(&|$)/.test(location.search)) {
-      document.body.classList.add('is-edit-mode');
-      setupVoiceRecorders();
-    }
-
-    function setupVoiceRecorders() {
-      document.querySelectorAll('.voice-note').forEach(el => {
-        const clip = el.dataset.clip;
-        if (!clip) return;
-        // Build recorder UI on demand
-        const rec = document.createElement('div');
-        rec.className = 'vn-recorder';
-        rec.innerHTML =
-          '<button type="button" class="vn-rec-btn">🎤 ' + tr('voice.recBtn') + '</button>' +
-          '<span class="vn-rec-timer" hidden>0:00</span>' +
-          '<button type="button" class="vn-rec-stop" hidden>⏹ ' + tr('voice.stopBtn') + '</button>' +
-          '<button type="button" class="vn-rec-upload" hidden>🚀 ' + tr('voice.uploadBtn') + '</button>' +
-          '<button type="button" class="vn-rec-download" hidden>↓ voice-' + clip + '</button>' +
-          '<audio class="vn-rec-preview" controls hidden></audio>' +
-          '<div class="vn-rec-help">' + tr('voice.helpText').replace('{clip}', clip) + '</div>';
-        el.appendChild(rec);
-
-        const recBtn = rec.querySelector('.vn-rec-btn');
-        const stopBtn = rec.querySelector('.vn-rec-stop');
-        const timer = rec.querySelector('.vn-rec-timer');
-        const preview = rec.querySelector('.vn-rec-preview');
-        const dlBtn = rec.querySelector('.vn-rec-download');
-        const ulBtn = rec.querySelector('.vn-rec-upload');
-
-        let mr = null;
-        let chunks = [];
-        let lastBlob = null;
-        let timerId = null;
-        let startTime = 0;
-        let mime = '';
-
-        recBtn.addEventListener('click', async () => {
-          try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mr = new MediaRecorder(stream);
-            chunks = [];
-            mr.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
-            mr.onstop = async () => {
-              const rawMime = mr.mimeType || 'audio/webm';
-              const rawBlob = new Blob(chunks, { type: rawMime });
-              stream.getTracks().forEach(t => t.stop());
-
-              // Show "converting" state while we re-encode to WAV
-              // (so the file plays on iPhone too).
-              const labelEl = rec.querySelector('.vn-rec-help');
-              const prevLabel = labelEl ? labelEl.textContent : '';
-              if (labelEl) labelEl.textContent = tr('voice.converting');
-              try {
-                lastBlob = await recodeBlobToWav(rawBlob);
-                mime = 'audio/wav';
-              } catch (err) {
-                // If Web Audio can't decode (rare on desktop), keep the raw blob.
-                console.warn('WAV re-encode failed, keeping native format:', err);
-                lastBlob = rawBlob;
-                mime = rawMime;
-              }
-              if (labelEl) labelEl.textContent = prevLabel;
-
-              preview.src = URL.createObjectURL(lastBlob);
-              preview.hidden = false;
-              dlBtn.hidden = false;
-              ulBtn.hidden = false;
-              ulBtn.disabled = !isGhConfigured();
-              if (!isGhConfigured()) ulBtn.title = tr('voice.uploadNeedsConfig');
-              else ulBtn.title = '';
-              ulBtn.className = 'vn-rec-upload';
-              ulBtn.textContent = '🚀 ' + tr('voice.uploadBtn');
-            };
-            mr.start();
-            startTime = Date.now();
-            timer.hidden = false;
-            stopBtn.hidden = false;
-            recBtn.hidden = true;
-            preview.hidden = true;
-            dlBtn.hidden = true;
-            ulBtn.hidden = true;
-            timerId = setInterval(() => {
-              timer.textContent = fmtVnTime((Date.now() - startTime) / 1000);
-            }, 100);
-          } catch (err) {
-            alert('Microphone access denied or not supported: ' + err.message);
-          }
-        });
-
-        stopBtn.addEventListener('click', () => {
-          if (mr && mr.state === 'recording') mr.stop();
-          clearInterval(timerId);
-          stopBtn.hidden = true;
-          timer.hidden = true;
-          recBtn.hidden = false;
-          recBtn.textContent = '🎤 ' + tr('voice.reRecBtn');
-        });
-
-        function blobExt() {
-          if (mime.includes('wav')) return 'wav';
-          if (mime.includes('mp4')) return 'mp4';
-          if (mime.includes('ogg')) return 'ogg';
-          if (mime.includes('mp3') || mime.includes('mpeg')) return 'mp3';
-          return 'webm';
-        }
-
-        dlBtn.addEventListener('click', () => {
-          if (!lastBlob) return;
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(lastBlob);
-          a.download = 'voice-' + clip + '.' + blobExt();
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-        });
-
-        ulBtn.addEventListener('click', async () => {
-          if (!lastBlob || !isGhConfigured()) return;
-          const filename = 'voice-' + clip + '.' + blobExt();
-          ulBtn.disabled = true;
-          ulBtn.className = 'vn-rec-upload uploading';
-          ulBtn.textContent = '⏳ ' + tr('voice.uploading');
-          try {
-            await uploadToGithub(filename, lastBlob);
-            ulBtn.className = 'vn-rec-upload success';
-            ulBtn.textContent = '✓ ' + tr('voice.uploadOK');
-            // Re-enable after a moment so they can re-upload if needed
-            setTimeout(() => {
-              ulBtn.disabled = false;
-              ulBtn.className = 'vn-rec-upload';
-              ulBtn.textContent = '🚀 ' + tr('voice.uploadAgain');
-            }, 3000);
-          } catch (err) {
-            ulBtn.className = 'vn-rec-upload error';
-            ulBtn.textContent = '✗ ' + tr('voice.uploadErr');
-            ulBtn.disabled = false;
-            alert('Upload failed: ' + err.message);
-            setTimeout(() => {
-              ulBtn.className = 'vn-rec-upload';
-              ulBtn.textContent = '🚀 ' + tr('voice.uploadBtn');
-            }, 4000);
-          }
-        });
-      });
-    }
-
-    // ===== GitHub setup + upload =====
-    const GH_KEY = 'al-zahrawi-gh-config';
-    function getGhConfig() {
-      try { return JSON.parse(localStorage.getItem(GH_KEY) || '{}'); }
-      catch (e) { return {}; }
-    }
-    function setGhConfig(cfg) { localStorage.setItem(GH_KEY, JSON.stringify(cfg)); }
-    function clearGhConfig() { localStorage.removeItem(GH_KEY); }
-    function isGhConfigured() {
-      const c = getGhConfig();
-      return !!(c.owner && c.repo && c.token);
-    }
-
-    function blobToBase64(blob) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const dataUrl = String(reader.result || '');
-          const idx = dataUrl.indexOf(',');
-          resolve(idx >= 0 ? dataUrl.slice(idx + 1) : dataUrl);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
-    }
-
-    async function uploadToGithub(filename, blob) {
-      const cfg = getGhConfig();
-      if (!cfg.owner || !cfg.repo || !cfg.token) throw new Error('GitHub not configured');
-      const branch = cfg.branch || 'main';
-      const path = 'audio/' + filename;
-      const apiBase = 'https://api.github.com/repos/' + encodeURIComponent(cfg.owner) + '/' + encodeURIComponent(cfg.repo) + '/contents/' + path;
-      // 1. Check if file exists already (need its SHA to update it)
-      let sha = null;
-      try {
-        const checkRes = await fetch(apiBase + '?ref=' + encodeURIComponent(branch), {
-          headers: {
-            'Authorization': 'Bearer ' + cfg.token,
-            'Accept': 'application/vnd.github+json'
-          }
-        });
-        if (checkRes.ok) {
-          const data = await checkRes.json();
-          sha = data.sha;
-        }
-      } catch (e) { /* fine, file probably doesn't exist yet */ }
-      // 2. Convert blob → base64
-      const content = await blobToBase64(blob);
-      // 3. PUT to GitHub
-      const body = {
-        message: 'Add narration: ' + filename,
-        content: content,
-        branch: branch
-      };
-      if (sha) body.sha = sha;
-      const res = await fetch(apiBase, {
-        method: 'PUT',
-        headers: {
-          'Authorization': 'Bearer ' + cfg.token,
-          'Accept': 'application/vnd.github+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      });
-      if (!res.ok) {
-        let detail = '';
-        try { const data = await res.json(); detail = ' — ' + (data.message || ''); } catch (e) {}
-        const err = new Error('HTTP ' + res.status + detail);
-        if (res.status === 401) throw new Error('Token rejected (401). Check the PAT is correct.');
-        if (res.status === 403) throw new Error('Forbidden (403). Token lacks write permission for this repo.');
-        if (res.status === 404) throw new Error('Repo not found (404). Check owner/repo names.');
-        throw err;
-      }
-      return res.json();
-    }
-
-    function initGithubSetupPanel() {
-      const panel = document.getElementById('ghSetup');
-      if (!panel) return;
-      const ownerIn = panel.querySelector('#ghOwner');
-      const repoIn  = panel.querySelector('#ghRepo');
-      const tokenIn = panel.querySelector('#ghToken');
-      const branchIn = panel.querySelector('#ghBranch');
-      const saveBtn = panel.querySelector('#ghSaveBtn');
-      const clearBtn = panel.querySelector('#ghClearBtn');
-      const status = panel.querySelector('#ghStatus');
-
-      // Load existing config
-      const cfg = getGhConfig();
-      ownerIn.value = cfg.owner || '';
-      repoIn.value = cfg.repo || '';
-      tokenIn.value = cfg.token || '';
-      branchIn.value = cfg.branch || 'main';
-      if (isGhConfigured()) {
-        status.className = 'gh-status ok';
-        status.textContent = '✓ ' + tr('gh.statusSaved');
-      }
-
-      saveBtn.addEventListener('click', async () => {
-        const owner = ownerIn.value.trim();
-        const repo = repoIn.value.trim();
-        const token = tokenIn.value.trim();
-        const branch = branchIn.value.trim() || 'main';
-        if (!owner || !repo || !token) {
-          status.className = 'gh-status err';
-          status.textContent = '✗ ' + tr('gh.statusMissing');
-          return;
-        }
-        // Quick connectivity test by reading repo metadata
-        status.className = 'gh-status';
-        status.textContent = '⏳ ' + tr('gh.statusTesting');
-        try {
-          const res = await fetch('https://api.github.com/repos/' + encodeURIComponent(owner) + '/' + encodeURIComponent(repo), {
-            headers: {
-              'Authorization': 'Bearer ' + token,
-              'Accept': 'application/vnd.github+json'
-            }
-          });
-          if (!res.ok) {
-            if (res.status === 401) throw new Error('Token rejected (401)');
-            if (res.status === 404) throw new Error('Repo not found (404)');
-            throw new Error('HTTP ' + res.status);
-          }
-          setGhConfig({ owner, repo, token, branch });
-          status.className = 'gh-status ok';
-          status.textContent = '✓ ' + tr('gh.statusConnected');
-          // Re-evaluate enabled state on any upload buttons that exist
-          document.querySelectorAll('.vn-rec-upload').forEach(b => {
-            if (!b.hidden) {
-              b.disabled = false;
-              b.title = '';
-            }
-          });
-        } catch (e) {
-          status.className = 'gh-status err';
-          status.textContent = '✗ ' + e.message;
-        }
-      });
-
-      clearBtn.addEventListener('click', () => {
-        clearGhConfig();
-        ownerIn.value = '';
-        repoIn.value = '';
-        tokenIn.value = '';
-        branchIn.value = 'main';
-        status.className = 'gh-status';
-        status.textContent = tr('gh.statusCleared');
-        document.querySelectorAll('.vn-rec-upload').forEach(b => {
-          b.disabled = true;
-          b.title = tr('voice.uploadNeedsConfig');
-        });
-      });
-    }
-    initGithubSetupPanel();
-
-    setupVoiceNotes();
-
-    // ===============================
-    // 11. LANGUAGE TOGGLE BUTTONS
-    // ===============================
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => setLang(btn.dataset.l));
-    });
-
-    // ===============================
-    // 12. INITIALIZE — ARABIC BY DEFAULT
-    // ===============================
-    let initLang = 'ar';
-    try {
-      const saved = localStorage.getItem('zahrawi-lang');
-      if (saved && T[saved]) initLang = saved;
-    } catch (e) {}
-    setLang(initLang);
-  </script>
-</body>
-</html>
+      const out
