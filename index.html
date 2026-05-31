@@ -2352,105 +2352,366 @@
     .quiz .q-num { font-size: 0.9rem; }
     .chapter-step { font-size: 1.6rem; }
 
-    /* ===== VOICE NOTES — narration player + recorder ===== */
+    /* ===== VOICE NOTES — SPOTLIGHT TREATMENT =====
+       Promote these from subtle pills into the visual hero of every
+       section. Bold gold gradient, big play button, animated wave-form,
+       idle pulse, "صوت تيسير" eyebrow badge. */
     .voice-note {
       display: flex;
       align-items: center;
-      gap: 14px;
-      max-width: 560px;
-      margin: 18px auto 30px;
-      padding: 10px 18px 10px 10px;
-      background: linear-gradient(180deg, rgba(255,250,238,0.95), rgba(245,232,200,0.85));
-      border: 1.5px solid rgba(212,168,87,0.55);
-      border-radius: 999px;
-      box-shadow: 0 4px 16px rgba(58,37,16,0.1);
+      gap: 18px;
+      max-width: 720px;
+      margin: 22px auto 36px;
+      padding: 16px 24px 16px 16px;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(255,255,255,0.22), transparent 55%),
+        linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 70%, var(--gold-light) 100%);
+      border: 2.5px solid var(--gold);
+      border-radius: 22px;
+      box-shadow:
+        0 14px 36px rgba(139,100,32,0.32),
+        0 4px 12px rgba(46,31,12,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.28);
       transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s;
       position: relative;
+      overflow: hidden;
+      animation: vnIdlePulse 3.2s ease-in-out infinite;
+    }
+    .voice-note::before {
+      /* "NEW" badge — gentle sparkle hint that audio is here */
+      content: "🎤 NEW";
+      position: absolute;
+      top: -1px;
+      left: 22px;
+      background: #fff8e7;
+      color: var(--gold-dark);
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.66rem;
+      letter-spacing: 0.18em;
+      padding: 3px 12px;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 3px 8px rgba(46,31,12,0.2);
+      z-index: 3;
+    }
+    body[data-lang="ar"] .voice-note::before {
+      content: "🎤 جديد";
+      font-family: 'Cairo', sans-serif;
+      letter-spacing: 0;
+      left: auto;
+      right: 22px;
+    }
+
+    /* === DIAGONAL SHEEN SWEEP — a real "stage light" passing across the card === */
+    .voice-note::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -60%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(
+        110deg,
+        transparent 30%,
+        rgba(255, 248, 231, 0.18) 42%,
+        rgba(255, 255, 255, 0.55) 50%,
+        rgba(255, 248, 231, 0.18) 58%,
+        transparent 70%
+      );
+      transform: skewX(-18deg);
+      pointer-events: none;
+      animation: vnSheen 5.5s ease-in-out infinite;
+      z-index: 1;
+      mix-blend-mode: screen;
+    }
+    @keyframes vnSheen {
+      0%, 60% { left: -60%; }
+      85% { left: 130%; }
+      100% { left: 130%; }
+    }
+    /* Speed the sweep up while playing — bigger stage = brighter spotlight */
+    .voice-note.vn-playing::after { animation-duration: 3.2s; }
+
+    /* === TWINKLING CORNER SPARKLES === */
+    .vn-sparkles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      overflow: hidden;
+      border-radius: 22px;
+    }
+    .vn-sparkles i {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background:
+        radial-gradient(circle, #fff8e7 0%, rgba(255,248,231,0.6) 30%, transparent 65%);
+      border-radius: 50%;
+      opacity: 0;
+      animation: vnSparkle 2.6s ease-in-out infinite;
+    }
+    .vn-sparkles i::before, .vn-sparkles i::after {
+      /* 4-point star spokes for a real "twinkle" */
+      content: "";
+      position: absolute;
+      background: linear-gradient(currentColor, transparent);
+      color: rgba(255,248,231,0.85);
+      left: 50%;
+      top: 50%;
+      transform-origin: center;
+    }
+    .vn-sparkles i::before {
+      width: 2px; height: 16px;
+      transform: translate(-50%, -50%);
+    }
+    .vn-sparkles i::after {
+      width: 16px; height: 2px;
+      transform: translate(-50%, -50%);
+    }
+    .vn-sparkles i:nth-child(1) { top: 18%; right: 16%; animation-delay: 0s; }
+    .vn-sparkles i:nth-child(2) { bottom: 22%; right: 6%; animation-delay: 1.1s; width: 10px; height: 10px; }
+    .vn-sparkles i:nth-child(3) { top: 56%; left: 14%; animation-delay: 1.9s; width: 8px; height: 8px; }
+    .vn-sparkles i:nth-child(4) { top: 8%;  left: 38%; animation-delay: 0.6s; width: 6px; height: 6px; }
+    @keyframes vnSparkle {
+      0%, 100% { opacity: 0; transform: scale(0.4) rotate(0deg); }
+      45%, 55% { opacity: 0.95; transform: scale(1.15) rotate(20deg); }
+    }
+    /* Sparkles twinkle a little faster while playing */
+    .voice-note.vn-playing .vn-sparkles i { animation-duration: 1.6s; }
+    @keyframes vnIdlePulse {
+      0%, 100% {
+        box-shadow:
+          0 14px 36px rgba(139,100,32,0.32),
+          0 4px 12px rgba(46,31,12,0.18),
+          0 0 0 0 rgba(212,168,87,0.45),
+          inset 0 1px 0 rgba(255,255,255,0.28);
+      }
+      50% {
+        box-shadow:
+          0 18px 44px rgba(139,100,32,0.42),
+          0 4px 12px rgba(46,31,12,0.18),
+          0 0 0 8px rgba(212,168,87,0),
+          inset 0 1px 0 rgba(255,255,255,0.28);
+      }
     }
     .voice-note:hover {
-      box-shadow: 0 8px 24px rgba(58,37,16,0.18);
-      transform: translateY(-1px);
-      border-color: var(--gold);
+      transform: translateY(-2px);
+      animation: none;
+      box-shadow:
+        0 20px 50px rgba(139,100,32,0.45),
+        0 6px 14px rgba(46,31,12,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.3);
     }
+    .voice-note.vn-playing { animation: none; }
+
     .vn-btn {
       display: inline-flex; align-items: center; justify-content: center;
-      width: 50px; height: 50px;
+      width: 72px; height: 72px;
       border: none;
       border-radius: 50%;
-      background: linear-gradient(180deg, var(--gold-bright), var(--gold));
-      color: #2a1408;
+      background:
+        radial-gradient(circle at 30% 22%, #ffffff 0%, transparent 35%),
+        radial-gradient(circle at 70% 80%, rgba(139,100,32,0.18) 0%, transparent 50%),
+        #fff8e7;
+      color: var(--gold-dark);
       cursor: pointer;
       flex-shrink: 0;
-      box-shadow: 0 4px 12px rgba(212,168,87,0.45);
-      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow:
+        0 6px 20px rgba(46,31,12,0.32),
+        inset 0 -3px 8px rgba(139,100,32,0.18),
+        inset 0 2px 4px rgba(255,255,255,0.9);
+      transition: transform 0.18s, box-shadow 0.2s;
       padding: 0;
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
     }
-    .vn-btn:hover { transform: scale(1.07); box-shadow: 0 6px 18px rgba(212,168,87,0.6); }
+    .vn-btn::after {
+      /* Rotating gloss sweep on the play button itself */
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        transparent 80deg,
+        rgba(255,255,255,0.55) 100deg,
+        transparent 120deg,
+        transparent 360deg
+      );
+      animation: vnBtnGloss 6s linear infinite;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+    .voice-note.vn-playing .vn-btn::after { animation-duration: 3s; }
+    @keyframes vnBtnGloss {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    .vn-btn:hover { transform: scale(1.08); box-shadow: 0 10px 26px rgba(46,31,12,0.4); }
     .vn-btn:active { transform: scale(0.96); }
-    .vn-btn svg { width: 22px; height: 22px; fill: currentColor; }
+    .vn-btn svg { width: 30px; height: 30px; fill: currentColor; position: relative; z-index: 3; }
     .voice-note .vn-pause { display: none; }
     .voice-note.vn-playing .vn-play { display: none; }
     .voice-note.vn-playing .vn-pause { display: inline-block; }
     .voice-note.vn-playing .vn-btn {
-      box-shadow: 0 0 0 6px rgba(212,168,87,0.18), 0 4px 14px rgba(212,168,87,0.55);
+      box-shadow:
+        0 0 0 8px rgba(255,248,231,0.32),
+        0 6px 20px rgba(46,31,12,0.4);
     }
 
-    .vn-info { flex: 1; min-width: 0; }
-    .vn-label {
-      display: flex; align-items: center; gap: 6px;
-      font-family: 'Cinzel', serif; font-weight: 700;
-      color: var(--gold-dark);
-      font-size: 0.85rem;
-      letter-spacing: 0.06em;
-      margin-bottom: 4px;
+    .vn-info { flex: 1; min-width: 0; position: relative; z-index: 1; }
+
+    /* Eyebrow added via JS — "صوت تيسير ⭐" */
+    .vn-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      color: rgba(255,248,231,0.92);
       text-transform: uppercase;
+      margin-bottom: 4px;
+      padding: 3px 10px;
+      background: rgba(46,31,12,0.18);
+      border-radius: 999px;
     }
-    body[data-lang="ar"] .vn-label {
+    body[data-lang="ar"] .vn-eyebrow {
       font-family: 'Cairo', sans-serif;
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 0.86rem;
       letter-spacing: 0;
       text-transform: none;
     }
-    .vn-label .vn-icon { font-size: 1rem; }
+    .vn-eyebrow .vn-eyebrow-star { color: #fff8e7; }
+
+    .vn-label {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Cinzel', serif; font-weight: 800;
+      color: #fff8e7;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+      text-transform: none;
+      text-shadow: 0 1px 2px rgba(46,31,12,0.35);
+    }
+    body[data-lang="ar"] .vn-label {
+      font-family: 'Cairo', sans-serif;
+      font-weight: 800;
+      font-size: 1.18rem;
+      letter-spacing: 0;
+    }
+    .vn-label .vn-icon { font-size: 1.15rem; }
+
+    /* Animated wave-form — added via JS, suggests "click me" */
+    .vn-wave {
+      display: inline-flex;
+      gap: 3px;
+      align-items: center;
+      height: 22px;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+    body[data-lang="ar"] .vn-wave { margin-left: 0; margin-right: 10px; }
+    .vn-wave span {
+      width: 3px;
+      background: rgba(255,248,231,0.85);
+      border-radius: 2px;
+      animation: vnWavePulse 1.6s ease-in-out infinite;
+    }
+    .vn-wave span:nth-child(1) { height: 35%; animation-delay: 0.0s; }
+    .vn-wave span:nth-child(2) { height: 65%; animation-delay: 0.1s; }
+    .vn-wave span:nth-child(3) { height: 92%; animation-delay: 0.2s; }
+    .vn-wave span:nth-child(4) { height: 50%; animation-delay: 0.3s; }
+    .vn-wave span:nth-child(5) { height: 78%; animation-delay: 0.4s; }
+    .vn-wave span:nth-child(6) { height: 40%; animation-delay: 0.5s; }
+    .vn-wave span:nth-child(7) { height: 60%; animation-delay: 0.6s; }
+    @keyframes vnWavePulse {
+      0%, 100% { transform: scaleY(0.55); opacity: 0.55; }
+      50% { transform: scaleY(1); opacity: 1; }
+    }
+    /* Speed up the wave while actually playing */
+    .voice-note.vn-playing .vn-wave span { animation-duration: 0.9s; }
 
     .vn-progress {
-      height: 5px;
-      background: rgba(107,77,34,0.18);
+      height: 8px;
+      background: rgba(46,31,12,0.25);
       border-radius: 999px;
       overflow: hidden;
       cursor: pointer;
     }
     .vn-progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+      background: linear-gradient(90deg, #fff8e7, #ffe9a8);
       width: 0%;
       transition: width 0.1s linear;
       border-radius: 999px;
+      box-shadow: 0 0 8px rgba(255,248,231,0.6);
     }
     .vn-time {
       display: flex; justify-content: space-between;
       font-family: 'Cinzel', serif;
-      font-size: 0.7rem;
-      color: var(--parchment);
-      margin-top: 4px;
-      opacity: 0.7;
-      letter-spacing: 0.04em;
+      font-size: 0.78rem;
+      color: rgba(255,248,231,0.9);
+      margin-top: 6px;
+      letter-spacing: 0.05em;
+      font-weight: 700;
     }
-    body[data-lang="ar"] .vn-time { font-family: 'Cairo', sans-serif; }
+    body[data-lang="ar"] .vn-time { font-family: 'Cairo', sans-serif; letter-spacing: 0; }
 
-    /* Empty state — no recording on disk yet */
+    /* Empty state — no recording on disk yet (kept readable but de-emphasized) */
+    .voice-note.vn-empty {
+      animation: none;
+      background:
+        linear-gradient(135deg, rgba(245,232,200,0.85), rgba(232,212,164,0.85));
+      border-color: rgba(212,168,87,0.6);
+      box-shadow: 0 8px 24px rgba(58,37,16,0.14);
+    }
+    .voice-note.vn-empty::before {
+      content: "🎤 ⏳";
+      background: rgba(255,248,231,0.85);
+    }
+    body[data-lang="ar"] .voice-note.vn-empty::before { content: "🎤 ⏳"; }
     .voice-note.vn-empty .vn-btn {
-      background: rgba(107,77,34,0.18);
+      background: rgba(107,77,34,0.22);
       box-shadow: none;
       color: #7a6840;
       cursor: not-allowed;
     }
     .voice-note.vn-empty .vn-btn:hover { transform: none; box-shadow: none; }
-    .voice-note.vn-empty .vn-label {
-      color: rgba(58,37,16,0.55);
+    .voice-note.vn-empty .vn-eyebrow {
+      color: var(--gold-dark);
+      background: rgba(46,31,12,0.08);
     }
-    .voice-note.vn-empty .vn-progress-fill { background: rgba(107,77,34,0.25); }
+    .voice-note.vn-empty .vn-label {
+      color: var(--gold-dark);
+      text-shadow: none;
+    }
+    .voice-note.vn-empty .vn-wave span { background: rgba(107,77,34,0.4); animation: none; opacity: 0.3; }
+    .voice-note.vn-empty .vn-progress-fill { background: rgba(107,77,34,0.25); box-shadow: none; }
+    .voice-note.vn-empty .vn-time { color: var(--gold-dark); opacity: 0.7; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .voice-note,
+      .voice-note::after,
+      .vn-wave span,
+      .vn-sparkles i,
+      .vn-btn::after { animation: none !important; }
+    }
+    @media (max-width: 640px) {
+      .voice-note { padding: 14px 18px 14px 14px; gap: 14px; }
+      .vn-btn { width: 60px; height: 60px; }
+      .vn-btn svg { width: 24px; height: 24px; }
+      .vn-label { font-size: 1rem; }
+      body[data-lang="ar"] .vn-label { font-size: 1.05rem; }
+      .vn-wave { height: 18px; }
+    }
 
     /* ===== Edit-mode recorder (visible only when ?edit=1) ===== */
     .vn-recorder {
@@ -2831,7 +3092,7 @@
     </svg>
 
     <div style="position:relative; z-index:2;">
-      <div class="hero-pill" data-i18n="hero.subject">مشروع التربية الإسلامية · الصف الرابع</div>
+      <div class="hero-pill" data-i18n="hero.subject">مشروع التربية الإسلامية · السنة الرابعة</div>
       <h1 class="arabic">أبو القاسم الزَّهْراوي</h1>
       <div class="latin-name" data-i18n="hero.name">أبو القاسم خَلَف بن العَبّاس الزَّهْراوي</div>
       <div class="ornament">
@@ -4154,7 +4415,7 @@
         "hero.title": "أبو الجِراحَة الحديثة",
         "hero.lifespan": "936 — 1013م · قُرْطُبَة، الأندلس",
         "hero.scroll": "انزل",
-        "hero.subject": "مشروع التربية الإسلامية · الصف الرابع",
+        "hero.subject": "مشروع التربية الإسلامية · السنة الرابعة",
         "hero.credit": "بقلم <strong>تيسير الزير</strong> <span class=\"dot-sep\">·</span> مدرسة فيكتوري هايتس الابتدائية، دبي",
         // Intro
         "intro.title": "من هو الزَّهْراوي؟",
@@ -4312,8 +4573,9 @@
         "quiz.msg60": "جهد رائع — حاول مرة أخرى لتتحسن النتيجة!",
         "quiz.msglow": "محاولة أولى جيدة — ارجع للأعلى واقرأ مرة أخرى!",
         // Footer
-        "footer.tag": "مشروع التربية الإسلامية الصف الرابع صَنَعتُه بحُبّ.",
+        "footer.tag": "مشروع التربية الإسلامية للسنة الرابعة — صَنَعتُه بحُبّ.",
         // Voice narration
+        "voice.eyebrow": "صوت تيسير",
         "voice.listen":  "🎤 استمع إلى تيسير يحكي هذا الجزء",
         "voice.empty":   "(لم يتم تسجيل صوت لهذا الجزء بعد)",
         "voice.recBtn":  "سجّل",
@@ -4511,6 +4773,7 @@
         "quiz.msglow": "Good first go — scroll back up and try again to learn more!",
         "footer.tag": "A Year 4 Islamic Studies project, made with care.",
         // Voice narration
+        "voice.eyebrow": "Tayseer's Voice",
         "voice.listen":  "🎤 Listen to Tayseer narrate this part",
         "voice.empty":   "(No narration recorded for this part yet)",
         "voice.recBtn":  "Record",
@@ -5467,6 +5730,33 @@
       document.querySelectorAll('.voice-note').forEach(el => {
         const clip = el.dataset.clip;
         if (!clip) return;
+
+        // === SPOTLIGHT: inject eyebrow badge + wave-form + corner sparkles ===
+        const info = el.querySelector('.vn-info');
+        const label = el.querySelector('.vn-label');
+        if (info && label && !el.querySelector('.vn-eyebrow')) {
+          const eyebrow = document.createElement('div');
+          eyebrow.className = 'vn-eyebrow';
+          eyebrow.innerHTML =
+            '<span class="vn-eyebrow-star">⭐</span>' +
+            '<span class="vn-eyebrow-text" data-i18n="voice.eyebrow">' + tr('voice.eyebrow') + '</span>';
+          info.insertBefore(eyebrow, label);
+        }
+        if (label && !label.querySelector('.vn-wave')) {
+          const wave = document.createElement('span');
+          wave.className = 'vn-wave';
+          wave.setAttribute('aria-hidden', 'true');
+          wave.innerHTML = '<span></span><span></span><span></span><span></span><span></span><span></span><span></span>';
+          label.appendChild(wave);
+        }
+        if (!el.querySelector('.vn-sparkles')) {
+          const sparkles = document.createElement('span');
+          sparkles.className = 'vn-sparkles';
+          sparkles.setAttribute('aria-hidden', 'true');
+          sparkles.innerHTML = '<i></i><i></i><i></i><i></i>';
+          el.appendChild(sparkles);
+        }
+
         const audio = new Audio();
         audio.preload = 'metadata';
         el._audio = audio;
@@ -5572,366 +5862,4 @@
         }
         mono[i] = s / numChan;
       }
-      const byteRate = targetRate * 2; // mono, 16-bit
-      const dataLen = mono.length * 2;
-      const buffer = new ArrayBuffer(44 + dataLen);
-      const view = new DataView(buffer);
-      _wavWriteStr(view, 0, 'RIFF');
-      view.setUint32(4, 36 + dataLen, true);
-      _wavWriteStr(view, 8, 'WAVE');
-      _wavWriteStr(view, 12, 'fmt ');
-      view.setUint32(16, 16, true);    // PCM chunk size
-      view.setUint16(20, 1, true);     // PCM format
-      view.setUint16(22, 1, true);     // mono
-      view.setUint32(24, targetRate, true);
-      view.setUint32(28, byteRate, true);
-      view.setUint16(32, 2, true);     // block align
-      view.setUint16(34, 16, true);    // bits per sample
-      _wavWriteStr(view, 36, 'data');
-      view.setUint32(40, dataLen, true);
-      for (let i = 0; i < mono.length; i++) {
-        let s = Math.max(-1, Math.min(1, mono[i]));
-        view.setInt16(44 + i * 2, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
-      }
-      return new Blob([buffer], { type: 'audio/wav' });
-    }
-    async function recodeBlobToWav(blob) {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) throw new Error('Web Audio not supported');
-      const ctx = new AC();
-      try {
-        const arr = await blob.arrayBuffer();
-        const decoded = await new Promise((resolve, reject) => {
-          // Use callback form for max browser compat
-          try { ctx.decodeAudioData(arr.slice(0), resolve, reject); }
-          catch (e) { reject(e); }
-        });
-        return audioBufferToWavBlob(decoded, 22050);
-      } finally {
-        try { ctx.close(); } catch (e) {}
-      }
-    }
-
-    // ===== Edit mode (URL has ?edit=1 or ?edit) =====
-    if (/[?&]edit(=1)?(&|$)/.test(location.search)) {
-      document.body.classList.add('is-edit-mode');
-      setupVoiceRecorders();
-    }
-
-    function setupVoiceRecorders() {
-      document.querySelectorAll('.voice-note').forEach(el => {
-        const clip = el.dataset.clip;
-        if (!clip) return;
-        // Build recorder UI on demand
-        const rec = document.createElement('div');
-        rec.className = 'vn-recorder';
-        rec.innerHTML =
-          '<button type="button" class="vn-rec-btn">🎤 ' + tr('voice.recBtn') + '</button>' +
-          '<span class="vn-rec-timer" hidden>0:00</span>' +
-          '<button type="button" class="vn-rec-stop" hidden>⏹ ' + tr('voice.stopBtn') + '</button>' +
-          '<button type="button" class="vn-rec-upload" hidden>🚀 ' + tr('voice.uploadBtn') + '</button>' +
-          '<button type="button" class="vn-rec-download" hidden>↓ voice-' + clip + '</button>' +
-          '<audio class="vn-rec-preview" controls hidden></audio>' +
-          '<div class="vn-rec-help">' + tr('voice.helpText').replace('{clip}', clip) + '</div>';
-        el.appendChild(rec);
-
-        const recBtn = rec.querySelector('.vn-rec-btn');
-        const stopBtn = rec.querySelector('.vn-rec-stop');
-        const timer = rec.querySelector('.vn-rec-timer');
-        const preview = rec.querySelector('.vn-rec-preview');
-        const dlBtn = rec.querySelector('.vn-rec-download');
-        const ulBtn = rec.querySelector('.vn-rec-upload');
-
-        let mr = null;
-        let chunks = [];
-        let lastBlob = null;
-        let timerId = null;
-        let startTime = 0;
-        let mime = '';
-
-        recBtn.addEventListener('click', async () => {
-          try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mr = new MediaRecorder(stream);
-            chunks = [];
-            mr.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
-            mr.onstop = async () => {
-              const rawMime = mr.mimeType || 'audio/webm';
-              const rawBlob = new Blob(chunks, { type: rawMime });
-              stream.getTracks().forEach(t => t.stop());
-
-              // Show "converting" state while we re-encode to WAV
-              // (so the file plays on iPhone too).
-              const labelEl = rec.querySelector('.vn-rec-help');
-              const prevLabel = labelEl ? labelEl.textContent : '';
-              if (labelEl) labelEl.textContent = tr('voice.converting');
-              try {
-                lastBlob = await recodeBlobToWav(rawBlob);
-                mime = 'audio/wav';
-              } catch (err) {
-                // If Web Audio can't decode (rare on desktop), keep the raw blob.
-                console.warn('WAV re-encode failed, keeping native format:', err);
-                lastBlob = rawBlob;
-                mime = rawMime;
-              }
-              if (labelEl) labelEl.textContent = prevLabel;
-
-              preview.src = URL.createObjectURL(lastBlob);
-              preview.hidden = false;
-              dlBtn.hidden = false;
-              ulBtn.hidden = false;
-              ulBtn.disabled = !isGhConfigured();
-              if (!isGhConfigured()) ulBtn.title = tr('voice.uploadNeedsConfig');
-              else ulBtn.title = '';
-              ulBtn.className = 'vn-rec-upload';
-              ulBtn.textContent = '🚀 ' + tr('voice.uploadBtn');
-            };
-            mr.start();
-            startTime = Date.now();
-            timer.hidden = false;
-            stopBtn.hidden = false;
-            recBtn.hidden = true;
-            preview.hidden = true;
-            dlBtn.hidden = true;
-            ulBtn.hidden = true;
-            timerId = setInterval(() => {
-              timer.textContent = fmtVnTime((Date.now() - startTime) / 1000);
-            }, 100);
-          } catch (err) {
-            alert('Microphone access denied or not supported: ' + err.message);
-          }
-        });
-
-        stopBtn.addEventListener('click', () => {
-          if (mr && mr.state === 'recording') mr.stop();
-          clearInterval(timerId);
-          stopBtn.hidden = true;
-          timer.hidden = true;
-          recBtn.hidden = false;
-          recBtn.textContent = '🎤 ' + tr('voice.reRecBtn');
-        });
-
-        function blobExt() {
-          if (mime.includes('wav')) return 'wav';
-          if (mime.includes('mp4')) return 'mp4';
-          if (mime.includes('ogg')) return 'ogg';
-          if (mime.includes('mp3') || mime.includes('mpeg')) return 'mp3';
-          return 'webm';
-        }
-
-        dlBtn.addEventListener('click', () => {
-          if (!lastBlob) return;
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(lastBlob);
-          a.download = 'voice-' + clip + '.' + blobExt();
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-        });
-
-        ulBtn.addEventListener('click', async () => {
-          if (!lastBlob || !isGhConfigured()) return;
-          const filename = 'voice-' + clip + '.' + blobExt();
-          ulBtn.disabled = true;
-          ulBtn.className = 'vn-rec-upload uploading';
-          ulBtn.textContent = '⏳ ' + tr('voice.uploading');
-          try {
-            await uploadToGithub(filename, lastBlob);
-            ulBtn.className = 'vn-rec-upload success';
-            ulBtn.textContent = '✓ ' + tr('voice.uploadOK');
-            // Re-enable after a moment so they can re-upload if needed
-            setTimeout(() => {
-              ulBtn.disabled = false;
-              ulBtn.className = 'vn-rec-upload';
-              ulBtn.textContent = '🚀 ' + tr('voice.uploadAgain');
-            }, 3000);
-          } catch (err) {
-            ulBtn.className = 'vn-rec-upload error';
-            ulBtn.textContent = '✗ ' + tr('voice.uploadErr');
-            ulBtn.disabled = false;
-            alert('Upload failed: ' + err.message);
-            setTimeout(() => {
-              ulBtn.className = 'vn-rec-upload';
-              ulBtn.textContent = '🚀 ' + tr('voice.uploadBtn');
-            }, 4000);
-          }
-        });
-      });
-    }
-
-    // ===== GitHub setup + upload =====
-    const GH_KEY = 'al-zahrawi-gh-config';
-    function getGhConfig() {
-      try { return JSON.parse(localStorage.getItem(GH_KEY) || '{}'); }
-      catch (e) { return {}; }
-    }
-    function setGhConfig(cfg) { localStorage.setItem(GH_KEY, JSON.stringify(cfg)); }
-    function clearGhConfig() { localStorage.removeItem(GH_KEY); }
-    function isGhConfigured() {
-      const c = getGhConfig();
-      return !!(c.owner && c.repo && c.token);
-    }
-
-    function blobToBase64(blob) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const dataUrl = String(reader.result || '');
-          const idx = dataUrl.indexOf(',');
-          resolve(idx >= 0 ? dataUrl.slice(idx + 1) : dataUrl);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
-    }
-
-    async function uploadToGithub(filename, blob) {
-      const cfg = getGhConfig();
-      if (!cfg.owner || !cfg.repo || !cfg.token) throw new Error('GitHub not configured');
-      const branch = cfg.branch || 'main';
-      const path = 'audio/' + filename;
-      const apiBase = 'https://api.github.com/repos/' + encodeURIComponent(cfg.owner) + '/' + encodeURIComponent(cfg.repo) + '/contents/' + path;
-      // 1. Check if file exists already (need its SHA to update it)
-      let sha = null;
-      try {
-        const checkRes = await fetch(apiBase + '?ref=' + encodeURIComponent(branch), {
-          headers: {
-            'Authorization': 'Bearer ' + cfg.token,
-            'Accept': 'application/vnd.github+json'
-          }
-        });
-        if (checkRes.ok) {
-          const data = await checkRes.json();
-          sha = data.sha;
-        }
-      } catch (e) { /* fine, file probably doesn't exist yet */ }
-      // 2. Convert blob → base64
-      const content = await blobToBase64(blob);
-      // 3. PUT to GitHub
-      const body = {
-        message: 'Add narration: ' + filename,
-        content: content,
-        branch: branch
-      };
-      if (sha) body.sha = sha;
-      const res = await fetch(apiBase, {
-        method: 'PUT',
-        headers: {
-          'Authorization': 'Bearer ' + cfg.token,
-          'Accept': 'application/vnd.github+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      });
-      if (!res.ok) {
-        let detail = '';
-        try { const data = await res.json(); detail = ' — ' + (data.message || ''); } catch (e) {}
-        const err = new Error('HTTP ' + res.status + detail);
-        if (res.status === 401) throw new Error('Token rejected (401). Check the PAT is correct.');
-        if (res.status === 403) throw new Error('Forbidden (403). Token lacks write permission for this repo.');
-        if (res.status === 404) throw new Error('Repo not found (404). Check owner/repo names.');
-        throw err;
-      }
-      return res.json();
-    }
-
-    function initGithubSetupPanel() {
-      const panel = document.getElementById('ghSetup');
-      if (!panel) return;
-      const ownerIn = panel.querySelector('#ghOwner');
-      const repoIn  = panel.querySelector('#ghRepo');
-      const tokenIn = panel.querySelector('#ghToken');
-      const branchIn = panel.querySelector('#ghBranch');
-      const saveBtn = panel.querySelector('#ghSaveBtn');
-      const clearBtn = panel.querySelector('#ghClearBtn');
-      const status = panel.querySelector('#ghStatus');
-
-      // Load existing config
-      const cfg = getGhConfig();
-      ownerIn.value = cfg.owner || '';
-      repoIn.value = cfg.repo || '';
-      tokenIn.value = cfg.token || '';
-      branchIn.value = cfg.branch || 'main';
-      if (isGhConfigured()) {
-        status.className = 'gh-status ok';
-        status.textContent = '✓ ' + tr('gh.statusSaved');
-      }
-
-      saveBtn.addEventListener('click', async () => {
-        const owner = ownerIn.value.trim();
-        const repo = repoIn.value.trim();
-        const token = tokenIn.value.trim();
-        const branch = branchIn.value.trim() || 'main';
-        if (!owner || !repo || !token) {
-          status.className = 'gh-status err';
-          status.textContent = '✗ ' + tr('gh.statusMissing');
-          return;
-        }
-        // Quick connectivity test by reading repo metadata
-        status.className = 'gh-status';
-        status.textContent = '⏳ ' + tr('gh.statusTesting');
-        try {
-          const res = await fetch('https://api.github.com/repos/' + encodeURIComponent(owner) + '/' + encodeURIComponent(repo), {
-            headers: {
-              'Authorization': 'Bearer ' + token,
-              'Accept': 'application/vnd.github+json'
-            }
-          });
-          if (!res.ok) {
-            if (res.status === 401) throw new Error('Token rejected (401)');
-            if (res.status === 404) throw new Error('Repo not found (404)');
-            throw new Error('HTTP ' + res.status);
-          }
-          setGhConfig({ owner, repo, token, branch });
-          status.className = 'gh-status ok';
-          status.textContent = '✓ ' + tr('gh.statusConnected');
-          // Re-evaluate enabled state on any upload buttons that exist
-          document.querySelectorAll('.vn-rec-upload').forEach(b => {
-            if (!b.hidden) {
-              b.disabled = false;
-              b.title = '';
-            }
-          });
-        } catch (e) {
-          status.className = 'gh-status err';
-          status.textContent = '✗ ' + e.message;
-        }
-      });
-
-      clearBtn.addEventListener('click', () => {
-        clearGhConfig();
-        ownerIn.value = '';
-        repoIn.value = '';
-        tokenIn.value = '';
-        branchIn.value = 'main';
-        status.className = 'gh-status';
-        status.textContent = tr('gh.statusCleared');
-        document.querySelectorAll('.vn-rec-upload').forEach(b => {
-          b.disabled = true;
-          b.title = tr('voice.uploadNeedsConfig');
-        });
-      });
-    }
-    initGithubSetupPanel();
-
-    setupVoiceNotes();
-
-    // ===============================
-    // 11. LANGUAGE TOGGLE BUTTONS
-    // ===============================
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => setLang(btn.dataset.l));
-    });
-
-    // ===============================
-    // 12. INITIALIZE — ARABIC BY DEFAULT
-    // ===============================
-    let initLang = 'ar';
-    try {
-      const saved = localStorage.getItem('zahrawi-lang');
-      if (saved && T[saved]) initLang = saved;
-    } catch (e) {}
-    setLang(initLang);
-  </script>
-</body>
-</html>
+      const byteRate = targetRate * 2;
